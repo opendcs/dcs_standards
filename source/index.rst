@@ -12,9 +12,9 @@ Welcome to DCS Standards Documents's documentation!
 
    dds-14.rst
 
-   damsnt-14.rst
-   
-   hrit-r1.rst
+.. 
+   #damsnt-14.rst
+   #hrit-r1.rst
 
 Indices and tables
 ==================

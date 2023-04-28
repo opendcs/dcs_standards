@@ -15,7 +15,7 @@
 
    info@covesw.com
 
-|image0|
+|cove|
 
    **Table of Contents**
 
@@ -3165,6 +3165,6 @@ is written to run on a LRGS/DOMSAT receiver.
 The LRGS software was written under contract to the NOAA NESDIS, USGS,
 USACE.
 
-.. |image0| image:: media/image1.jpeg
+.. |cove| image:: .//media/cove.jpeg
    :width: 3.4255in
    :height: 0.775in
