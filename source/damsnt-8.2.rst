@@ -1,97 +1,9 @@
-   **April 7, 2020**
+################
+DAMS-NT Protocol
+################
 
-   **Table of Contents**
-
-1. `OVERVIEW AND BACKGROUND 1 <#overview-and-background>`__
-
-   1. `RFC 2119 1 <#rfc-2119>`__
-
-   2. `BNF NOTATION 2 <#bnf-notation>`__
-
-   3. `Document History 3 <#document-history>`__
-
-      1. `Differences between Version 8.1 and 8.2
-            3 <#differences-between-version-8.1-and-8.2>`__
-
-      2. `Differences between Version 8.0 and 8.1
-            4 <#differences-between-version-8.0-and-8.1>`__
-
-      3. `Differences between Version 7 and Version 8
-            4 <#differences-between-version-7-and-version-8>`__
-
-      4. `Differences between Version 6 and Version 7
-            4 <#differences-between-version-6-and-version-7>`__
-
-      5. `Differences between Version 5 and Version 6
-            5 <#differences-between-version-5-and-version-6>`__
-
-      6. `Differences between Version 4 and Version 5
-            5 <#differences-between-version-4-and-version-5>`__
-
-2. `SOCKET-LEVEL INTERFACE 6 <#socket-level-interface>`__
-
-3. `DCP MESSAGE INTERFACE 7 <#dcp-message-interface>`__
-
-   1. `Slot Numbers and Channels 9 <#slot-numbers-and-channels>`__
-
-   2. `Error / Message Flags 10 <#error-message-flags>`__
-
-   3. `Vendor-Specific Additional Data
-         10 <#vendor-specific-additional-data>`__
-
-   4. `Missed Message Block 11 <#missed-message-block>`__
-
-   5. `Start Pattern 11 <#start-pattern>`__
-
-4. `EVENT INTERFACE 12 <#event-interface>`__
-
-5. `REAL-TIME STATUS INTERFACE 14 <#real-time-status-interface>`__
-
-   1. `The BusyBits Query 15 <#the-busybits-query>`__
-
-   2. `The GetFaults Query 16 <#the-getfaults-query>`__
-
-6. `CONFIGURATION INTERFACE 17 <#configuration-interface>`__
-
-   1. `Demodulator Slots 19 <#demodulator-slots>`__
-
-   2. `Mode Designations 19 <#mode-designations>`__
-
-   3. `Channel Numbers 19 <#channel-numbers>`__
-
-      1. `CS1/DUAL 1200 Baud Channel Numbers
-            20 <#cs1dual-1200-baud-channel-numbers>`__
-
-      2. `CS2 300/1200 Baud Channel Numbers
-            21 <#cs2-3001200-baud-channel-numbers>`__
-
-   4. `Baud Rate Specifications 21 <#baud-rate-specifications>`__
-
-..
-
-   **List of Tables**
-
-Table 1-1: BNF Conventions Used in this Document. 2
-
-Table 2-2: Default Port Assignments. 6
-
-Table 3-3: 55-Character DCP Message Header Format. 8
-
-Table 3-4: ARM Flag Bit Defines 9
-
-Table 3-5: Error / Message Flag Values 10
-
-Table 3-6: 51-Character DCP Missed Message Block Format. 11
-
-Table 4-7: Priority Levels for Event Messages. 12
-
-Table 5-8: Commands for Status Interface 14
-
-Table 5-9: Busy Bits example where start-slot = 0 15
-
-Table 6-10: Required Commands for Configuration Interface 18
-
-Table 6-11: Allowable Channel Number by Mode and Baud 20
+.. contents. Table of Contents
+   :depth: 2
 
 Overview and Background
 =======================
@@ -865,8 +777,8 @@ Message Header, several key differences should be noted.
 |             |    **Name** |             |             |    **De     |
 |  **Offset** |             |  **Length** |  **Format** | scription** |
 +=============+=============+=============+=============+=============+
-|    0        |    s        | 4           |    ASCII    |    ASCII    |
-|             | tartPattern |             |    byte     |             |
+|    0        | startPattern| 4           |    ASCII    |    ASCII    |
+|             |             |             |    byte     |             |
 |             |             |             |    values   |  Characters |
 |             |             |             |             |    ‘MM’     |
 |             |             |             |             |    followed |
@@ -880,7 +792,7 @@ Message Header, several key differences should be noted.
 |             |             |             |             |    in       |
 |             |             |             |             |    `3.1 <#  |
 |             |             |             |             | slot-number |
-|             |             |             |             | s-and-chann |
+|             |             |             |             | s-and-chann\|
 |             |             |             |             | els>`__\ on |
 |             |             |             |             |    slot     |
 |             |             |             |             |    numbers. |
@@ -917,12 +829,12 @@ Message Header, several key differences should be noted.
 |             |             |             |             |    ‘0300’,  |
 |             |             |             |             |    ‘1200’). |
 +-------------+-------------+-------------+-------------+-------------+
-|    15       |             |    14       |    YYD      |    UTC Time |
+|    15       |             |    14       |    YYD\     |    UTC Time |
 |             |  windowTime |             | DDHHMMSSZZZ |    of DCP   |
 |             |             |             |             |    window   |
 |             |             |             |             |    start    |
 +-------------+-------------+-------------+-------------+-------------+
-|    29       |             |    14       |    YYD      |    UTC Time |
+|    29       |             |    14       |    YYD\     |    UTC Time |
 |             |   windowEnd |             | DDHHMMSSZZZ |    of DCP   |
 |             |             |             |             |    window   |
 |             |             |             |             |    end      |
@@ -1277,74 +1189,76 @@ characters or less.
 supplier SHOULD implement. When a DAMS-NT receives that it does not
 support, it MUST respond with an error.
 
-+----------------------------------+----------------------------------+
-|    **Command**                   |    **Meaning**                   |
-+==================================+==================================+
-| startpattern *8-hex-digits*      | Sets the 4-byte start pattern    |
-|                                  | used by the DCP message          |
-|                                  | interface.                       |
-+----------------------------------+----------------------------------+
-| assign *slot chan baud mode      | This command makes a slot        |
-| manu*                            | assignment. Slot and Channel are |
-|                                  | numeric, and further defined in  |
-|                                  | Sections                         |
-|                                  | `6.1 <#demodulator-slots>`__ and |
-|                                  | `6.3 <#channel-numbers>`__. Baud |
-|                                  | is one of the keywords as        |
-|                                  | specified above and defined in   |
-|                                  | Section                          |
-|                                  | `6.4                             |
-|                                  |  <#baud-rate-specifications>`__. |
-|                                  | Mode is one of the keywords as   |
-|                                  | specified above and defined in   |
-|                                  | Section                          |
-|                                  | `6.2 <#mode-designations>`__.    |
-|                                  |                                  |
-|                                  | A special case of assigning a    |
-|                                  | slot to channel 0 means to clear |
-|                                  | the slot assignment (i.e.        |
-|                                  | disable this demodulator). When  |
-|                                  | the channel is 0, the baud,      |
-|                                  | mode, and manu fields MUST be    |
-|                                  | omitted.                         |
-|                                  |                                  |
-|                                  | Following the mode specification |
-|                                  | keyword, additional manufacturer |
-|                                  | specific configuration settings  |
-|                                  | may be included, but are not     |
-|                                  | required. If the DAMS-NT unit    |
-|                                  | does recognize any of the        |
-|                                  | information included after the   |
-|                                  | mode setting, the DAMS-NT MUST   |
-|                                  | respond with an error.           |
-+----------------------------------+----------------------------------+
-| Dump                             | This command causes the DAMS to  |
-|                                  | echo its complete current        |
-|                                  | configuration back to the        |
-|                                  | client, formatted as a series of |
-|                                  | configuration commands. A line   |
-|                                  | with the word “OK” indicates the |
-|                                  | end of the configuration dump.   |
-+----------------------------------+----------------------------------+
-| carriertime (on \| off)          | This command causes the DAMS-NT  |
-|                                  | to either include or exclude the |
-|                                  | extended carrier start & stop    |
-|                                  | times as defined in section      |
-|                                  | `3 <#dcp-message-interface>`__). |
-|                                  | “on” means to include carrier    |
-|                                  | times, “off” means to exclude    |
-|                                  | them. If carrier times are not   |
-|                                  | supported, the DAMS-NT MUST      |
-|                                  | respond with an error.           |
-+----------------------------------+----------------------------------+
-| paritycheck (on \| off)          | This command causes the DAMS-NT  |
-|                                  | to check parity on ASCII message |
-|                                  | bytes. Characters that fail the  |
-|                                  | parity check are to be replaced  |
-|                                  | by ‘$’. It also causes the       |
-|                                  | DAMS-NT to replace “prohibited   |
-|                                  | characters” with ‘$’.            |
-+----------------------------------+----------------------------------+
+
++----------------------------------+-------------------------------------+
+| Command                          | Meaning                             |
+|                                  |                                     |
++----------------------------------+-------------------------------------+
+| startpattern *8-hex-digits*      | Sets the 4-byte start pattern       |
+|                                  | used by the DCP message             |
+|                                  | interface.                          |
++----------------------------------+-------------------------------------+
+| assign *slot chan baud mode\     | This command makes a slot           |
+| manu*                            | assignment. Slot and Channel are    |
+|                                  | numeric, and further defined in     |
+|                                  | Sections                            |
+|                                  | `6.1 <#demodulator-slots>`__ and    |
+|                                  | `6.3 <#channel-numbers>`__. Baud    |
+|                                  | is one of the keywords as           |
+|                                  | specified above and defined in      |
+|                                  | Section                             |
+|                                  | `6.4 <#baud-rate-specifications>`__.|
+|                                  |                                     |
+|                                  | Mode is one of the keywords as      |
+|                                  | specified above and defined in      |
+|                                  | Section                             |
+|                                  | `6.2 <#mode-designations>`__.       |
+|                                  |                                     |
+|                                  | A special case of assigning a       |
+|                                  | slot to channel 0 means to clear    |
+|                                  | the slot assignment (i.e.           |
+|                                  | disable this demodulator). When     |
+|                                  | the channel is 0, the baud,         |
+|                                  | mode, and manu fields MUST be       |
+|                                  | omitted.                            |
+|                                  |                                     |
+|                                  | Following the mode specification    |
+|                                  | keyword, additional manufacturer    |
+|                                  | specific configuration settings     |
+|                                  | may be included, but are not        |
+|                                  | required. If the DAMS-NT unit       |
+|                                  | does recognize any of the           |
+|                                  | information included after the      |
+|                                  | mode setting, the DAMS-NT MUST      |
+|                                  | respond with an error.              |
++----------------------------------+-------------------------------------+
+| Dump                             | This command causes the DAMS to     |
+|                                  | echo its complete current           |
+|                                  | configuration back to the           |
+|                                  | client, formatted as a series of    |
+|                                  | configuration commands. A line      |
+|                                  | with the word “OK” indicates the    |
+|                                  | end of the configuration dump.      |
++----------------------------------+-------------------------------------+
+| carriertime (on | off)           | This command causes the DAMS-NT     |
+|                                  | to either include or exclude the    |
+|                                  | extended carrier start & stop       |
+|                                  | times as defined in section         |
+|                                  | `3 <#dcp-message-interface>`__).    |
+|                                  | “on” means to include carrier       |
+|                                  | times, “off” means to exclude       |
+|                                  | them. If carrier times are not      |
+|                                  | supported, the DAMS-NT MUST         |
+|                                  | respond with an error.              |
++----------------------------------+-------------------------------------+
+| paritycheck (on | off)           | This command causes the DAMS-NT     |
+|                                  | to check parity on ASCII message    |
+|                                  | bytes. Characters that fail the     |
+|                                  | parity check are to be replaced     |
+|                                  | by ‘$’. It also causes the          |
+|                                  | DAMS-NT to replace “prohibited      |
+|                                  | characters” with ‘$’.               |
++----------------------------------+-------------------------------------+
 
 ..
 
