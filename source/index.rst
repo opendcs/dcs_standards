@@ -7,8 +7,8 @@ Welcome to DCS Standards Documents's documentation!
 ===================================================
 
 .. toctree::
-   :maxdepth: 0
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Standards:
 
    dds-14.rst
 

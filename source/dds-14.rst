@@ -1,109 +1,11 @@
-   Protocol Version 14 2/29/2016
+#########################
+DCP Data Service Protocol
+#########################
 
-   Prepared For
 
-   **National Oceanic and Atmospheric Administration (NOAA) National
-   Environmental Satellite Data Information Service (NESDIS)**
+.. contents. Table of Contents
+   :depth: 2   
 
-   by
-
-   Cove Software, LLC 6030 Marshalee Drive, Ste 607
-
-   Elkridge, MD 21075-5935, USA
-
-   (410) 715-1117
-
-   info@covesw.com
-
-|cove|
-
-   **Table of Contents**
-
-1. `INTRODUCTION 3 <#introduction>`__
-
-   1. `HISTORY OF DDS 4 <#history-of-dds>`__
-
-   2. `RFC 2119 CONFORMANCE 6 <#rfc-2119-conformance>`__
-
-   3. `BNF NOTATION 6 <#bnf-notation>`__
-
-2. `DDS PROTOCOL MESSAGES 8 <#dds-protocol-messages>`__
-
-   1. `DDS Request/Response Headers 8 <#dds-requestresponse-headers>`__
-
-   2. `Normal and Error Responses 8 <#normal-and-error-responses>`__
-
-3. `CONNECTING AND DISCONNECTING 11 <#connecting-and-disconnecting>`__
-
-   1. `TCP SOCKETS 11 <#tcp-sockets>`__
-
-   2. `Authentication by Assertion 12 <#authentication-by-assertion>`__
-
-   3. `Authenticated Connection 13 <#authenticated-connection>`__
-
-   4. `Disconnecting 14 <#disconnecting>`__
-
-4. `TRANSFERRING SEARCH CRITERIA TO THE SERVER
-      15 <#transferring-search-criteria-to-the-server>`__
-
-   1. `Search Criteria File Format 15 <#search-criteria-file-format>`__
-
-5. `TRANSFERRING NETWORK LISTS TO/FROM THE SERVER
-      16 <#transferring-network-lists-tofrom-the-server>`__
-
-   1. `Sending a Transient Network List to the Server
-         16 <#sending-a-transient-network-list-to-the-server>`__
-
-   2. `Retrieving Network Lists From the Server
-         17 <#retrieving-network-lists-from-the-server>`__
-
-   3. `Network List File Format 17 <#network-list-file-format>`__
-
-6. `RETRIEVING DATA 18 <#retrieving-data>`__
-
-   1. `Retrieving a Single Message per Request
-         19 <#retrieving-a-single-message-per-request>`__
-
-      1. `Semantics for Until Time and Real-Time Retrieval
-            19 <#semantics-for-until-time-and-real-time-retrieval>`__
-
-   2. `Retrieving Multiple Messages per Request
-         20 <#retrieving-multiple-messages-per-request>`__
-
-   3. `Extended Multiple Message Requests
-         20 <#extended-multiple-message-requests>`__
-
-7. `STATUS AND EVENTS 22 <#status-and-events>`__
-
-   1. `Get Events 22 <#get-events>`__
-
-   2. `Get Status 22 <#get-status>`__
-
-8. `ADMINISTRATIVE FUNCTIONS 35 <#administrative-functions>`__
-
-   1. `User Administration 35 <#user-administration>`__
-
-      1. `List User Request 35 <#list-user-request>`__
-
-      2. `Set User Request 36 <#set-user-request>`__
-
-      3. `Remove User Request 36 <#remove-user-request>`__
-
-   2. `Configuration Commands 37 <#configuration-commands>`__
-
-      1. `Return Configuration to Client
-            37 <#return-configuration-to-client>`__
-
-      2. `Install Configuration on Server
-            37 <#install-configuration-on-server>`__
-
-   3. `Outages 37 <#outages>`__
-
-      1. `Get Outages 37 <#get-outages>`__
-
-      2. `AssertOutage 38 <#assertoutage>`__
-
-9. `REFERENCE IMPLEMENTATION 39 <#reference-implementation>`__
 
 Introduction
 ============
