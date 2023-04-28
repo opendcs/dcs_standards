@@ -1,9 +1,3 @@
-   10948 Beaver Dam Road, Suite C Hunt Valley, Maryland 21030-2237
-
-   Tel: 410.771.1070
-
-   Fax: 410.771.0018
-
 1. Introduction
 
 ..
