@@ -131,6 +131,8 @@ Telnet:
 Some requests and responses contain a time stamp. All time stamps MUST
 be in UTC and SHALL be formatted as follows:
 
+..  code-block:: ebnf
+
    time ::= YYDDDHHMMSS
 
 -  ‘YY’ is the last two digits of the year.
@@ -141,15 +143,16 @@ be in UTC and SHALL be formatted as follows:
 
 Integers are made up of at least one digit:
 
+..  code-block:: ebnf
+
    integer ::= DIGIT { DIGIT }
 
 Hex numbers are represented by <hexstring>:
 
-   hexstring ::= hexdigit { hexdigit } hexdigit :: DIGIT \|
+..  code-block:: ebnf
 
-   ‘a’ \| ‘b’ \| ‘c’ \| ‘d’ \| ‘e’ \| ‘f’ \|
-
-   ‘A’ \| ‘B’ \| ‘C’ \| ‘D’ \| ‘E’ \| ‘F’ \|
+   hexstring ::= hexdigit { hexdigit }
+   hexdigit :: DIGIT | ‘a’ | ‘b’ | ‘c’ | ‘d’ | ‘e’ | ‘f’ | ‘A’ | ‘B’ | ‘C’ | ‘D’ | ‘E’ | ‘F’
 
 *Document History*
 ------------------
@@ -383,26 +386,24 @@ become available. The first message sent to a client must be complete.
 
 The server continually sends responses to the client as follows:
 
-   response ::= none \| dcpmsg none ::= 'NONE' CRLF
+..  code-block:: ebnf
 
-   dcpmsg ::= header data CRLF [carriertimes] [extendedstats] header ::=
-   #(55 or 68 character sequence as defined below) data ::= OCTET_STRING
-
-   carriertimes ::= carrierstart SP carrierdrop CRLF carrierstart ::=
-   YYDDDHHMMSSmmm
-
+   response ::= none | dcpmsg 
+   none ::= 'NONE' CRLF
+   dcpmsg ::= header data CRLF [carriertimes] [extendedstats]
+   header ::=#(55 or 68 character sequence as defined below)
+   data ::= OCTET_STRING
+   carriertimes ::= carrierstart SP carrierdrop CRLF 
+   carrierstart ::= YYDDDHHMMSSmmm
    carrierdrop ::= YYMMDDHHMMSSmmm
-
    extendedstats ::= slvl SP phns SP gdph SP freq SP type [SP armf] CRLF
    slvl ::= { DIGIT } DIGIT ‘.’ DIGIT
-
    phns ::= { DIGIT } DIGIT ‘.’ DIGIT
-
    gdph ::= { DIGIT { DIGIT } } DIGIT ‘.’ DIGIT
-
-   freq ::= SIGN { DIGIT { DIGIT } } DIGIT ‘.’ DIGIT SIGN ::= ‘+’ \| ‘-’
-
-   type ::= ‘0’ \| ‘1’ \| ‘2’ armf ::= HEXCHR HEXCHR
+   freq ::= SIGN { DIGIT { DIGIT } } DIGIT ‘.’ DIGIT 
+   SIGN ::= ‘+’ | ‘-’
+   type ::= ‘0’ | ‘1’ | ‘2’
+   armf ::= HEXCHR HEXCHR
 
 When the DAMS-NT acquires a new DCP message it MUST send a ‘dcpmsg’ to
 each currently- connected client.
@@ -877,7 +878,10 @@ DAMS-NT to clients in the form of ASCII text messages.
 After establishing a connection, the client sends one of two request
 types to the server:
 
-   request ::= poll \| MaxPriority poll ::= ( ‘P’ \| ‘p’ ) CRLF
+..  code-block:: ebnf
+
+   request ::= poll | MaxPriority 
+   poll ::= ( ‘P’ | ‘p’ ) CRLF
    MaxPriority ::= DIGIT CRLF
 
 The MaxPriority request is used by the client to tell the server the
@@ -932,6 +936,8 @@ this. This will be common for clients that only want to see operational
 After receiving a MaxPriority request, the server MUST respond by
 echoing the new maximum priority value:
 
+..  code-block:: ebnf
+
    MaxPriorityResponse ::= DIGIT CRLF
 
 The ‘poll’ request is used by the client to retrieve the next event
@@ -939,14 +945,15 @@ message. The server MUST maintain a queue of a reasonable size to
 accommodate slow clients. Upon receiving a ‘poll’ the server responds as
 follows:
 
-   PollResponse ::= none \| event none ::= ‘NONE’ CRLF
+..  code-block:: ebnf
 
-   event ::= priority SP time SP [ eventnum SP] text CRLF priority ::=
-   DIGIT
-
+   PollResponse ::= none | event
+   none ::= ‘NONE’ CRLF
+   event ::= priority SP time SP [ eventnum SP] text CRLF
+   priority ::= DIGIT
    eventnum :: {DIGIT}
-
-   # time ::= YYDDDHHMMSS UTC time to seconds resolution text ::= STRING
+   # time ::= YYDDDHHMMSS UTC time to seconds resolution 
+   text ::= STRING
    # ASCII no more than 80 chars in length
 
 If there are no new events with an appropriate priority (i.e. events not
@@ -966,6 +973,8 @@ stream.
 If the Event Server does not understand the query (i.e. it is not a
 MaxPriority or a Poll command), it MUST respond with an error:
 
+..  code-block:: ebnf
+
    error ::= ‘ERROR’ [ STRING ] CRLF
 
 The OPTIONAL STRING component of the response may provide additional
@@ -978,13 +987,14 @@ Real-Time Status Interface
 The Real-Time Status Interface provides a mechanism for a client to poll
 the DAMS for its current status.
 
-   request ::= BusyBits \| CurrentTime \| LastMsgTime \| GetFaults \|
-   EquipId
+..  code-block:: ebnf
 
-   BusyBits ::= ( ‘B’ \| ‘b’ ) CRLF CurrentTime ::= ( ‘T’ \| ‘t’ ) CRLF
-   LastMsgTime ::= ( ‘L’ \| ‘l’ ) CRLF GetFaults ::= ( ‘F’ \| ‘f’ ) CRLF
-
-   EquipId :: = (‘E’ \| ‘e’ ) CRLF
+   request ::= BusyBits | CurrentTime | LastMsgTime | GetFaults | EquipId
+   BusyBits ::= ( ‘B’ | ‘b’ ) CRLF
+   CurrentTime ::= ( ‘T’ | ‘t’ ) CRLF
+   LastMsgTime ::= ( ‘L’ | ‘l’ ) CRLF
+   GetFaults ::= ( ‘F’ | ‘f’ ) CRLF
+   EquipId :: = (‘E’ | ‘e’ ) CRLF
 
 **If the Real-Time Status Interface is implemented,** the DAMS supplier
 MUST support the above-defined operations. The DAMS supplier MAY
@@ -994,11 +1004,11 @@ for single and multi-line responses.
 
 The response may be single line or multi-line:
 
-   response ::= SingleResponse \| MultResponse \| ErrorResponse
+..  code-block:: ebnf
+
+   response ::= SingleResponse | MultResponse | ErrorResponse
    SingleResponse ::= STRING CRLF
-
    MultResponse ::= { STRING CRLF } “OK” CRLF
-
    ErrorResponse ::= ‘ERROR’ sp STRING CRLF
 
 Single-line responses MUST be a single ASCII line of text followed by
@@ -1062,9 +1072,10 @@ of a binary value that contains one bit per slot.
 The response to the BusyBits query is a multi-line response. Each line
 will be formatted as follows:
 
-   BusyBitsResponse ::= { Range } “OK” CRLF Range ::= slotnum [ SP ] ‘:’
-   [ SP ] hexstring
+..  code-block:: ebnf
 
+   BusyBitsResponse ::= { Range } “OK” CRLF
+   Range ::= slotnum [ SP ] ‘:’ [ SP ] hexstring
    slotnum ::= integer # Slot number in range 0...996
 
 As shown, the response can contain multiple lines. Each line contains
@@ -1116,10 +1127,11 @@ inoperable. Hence the faults provide the client with a way of
 determining if the DAMS is currently usable or not; and if it is not,
 they provide terse abbreviations as a diagnostic aid.
 
-   GetFaultsResponse ::= ( Faults \| “NONE” ) CRLF Faults ::= WORD { SP
-   WORD }
+..  code-block:: ebnf
 
-   WORD ::= LETTER { LETTER \| DIGIT \| '-' }
+   GetFaultsResponse ::= ( Faults | “NONE” ) CRLF
+   Faults ::= WORD { SP WORD }
+   WORD ::= LETTER { LETTER | DIGIT | '-' }
 
 The response contains space-delimited words. Each word MUST begin with a
 letter and may contain only letters, digits and hyphens.
@@ -1138,21 +1150,18 @@ Configuration Interface
 The Configuration Interface provides a mechanism for a client to control
 the DAMS global configuration.
 
-   request ::= startpattern [STRIKEOUT:\|] assign \| dump \| carriertime
-   \| paritycheck startpattern ::= ‘startpattern’ hexstring CRLF
+..  code-block:: ebnf
 
-   assign ::= ‘assign’ slotnum chan [baud mode [manu]] CRLF chan ::=
-   DIGIT { DIGIT }
-
-   baud ::= ( ‘100’ \| ‘300’ \| ‘1200’ [ \| ‘AUTO1’ \| ‘AUTO2’ ] )
-
-   mode ::= ( ‘CS1’ \| ‘CS2’ [ \| ‘DUAL’ ] )
-
-   manu ::= manufacturer specific configuration settings dump ::= ‘dump’
-   CRLF
-
-   carriertime ::= ‘carriertime’ ( ‘on’ \| ‘off’) paritycheck ::=
-   ‘paritycheck’ ( ‘on’ \| ‘off’)
+   request ::= startpattern + assign | dump | carriertime | paritycheck 
+   startpattern ::= ‘startpattern’ hexstring CRLF
+   assign ::= ‘assign’ slotnum chan [baud mode [manu]] CRLF
+   chan ::= DIGIT { DIGIT }
+   baud ::= ( ‘100’ | ‘300’ | ‘1200’ [ | ‘AUTO1’ | ‘AUTO2’ ] )
+   mode ::= ( ‘CS1’ | ‘CS2’ [ | ‘DUAL’ ] )
+   manu ::= manufacturer specific configuration settings
+   dump ::= ‘dump’ CRLF
+   carriertime ::= ‘carriertime’ ( ‘on’ | ‘off’)
+   paritycheck ::= ‘paritycheck’ ( ‘on’ | ‘off’)
 
 If the Configuration Interface is implemented, the DAMS supplier MUST
 support the above- defined operations. The DAMS supplier MAY supplement
@@ -1162,11 +1171,11 @@ single and multi-line responses.
 
 The response may be single line or multi-line:
 
-   response ::= SingleResponse \| MultResponse \| ErrorResponse
+..  code-block:: ebnf
+
+   response ::= SingleResponse | MultResponse | ErrorResponse
    SingleResponse ::= STRING CRLF
-
    MultResponse ::= { STRING CRLF } “OK” CRLF
-
    ErrorResponse ::= ‘ERROR’ SP STRING CRLF
 
 The startpattern command gives the DAMS the 4-byte value that is used by
@@ -1268,6 +1277,8 @@ When “assign” commands are successfully executed, the “OK” response
 should be returned immediately. The action SHOULD be performed by the
 DAMS asynchronously. This will enable the client to send many assign
 commands back-to-back without waiting for each one to take effect.
+
+..  code-block:: ebnf
 
    OK_RESPONSE ::= “OK” CRLF
 
@@ -1395,36 +1406,29 @@ convention is carried forward in this revision for CS1 and DUAL mode
 operation..
 
 Use the following algorithm to translate from an alternate 1200 channel
-designation to the equivalent 300 channel designation:
+designation to the equivalent 300 channel designation::
 
-   If (‘A’ channel number (C\ :sub:`A`) is odd)
+   If (‘A’ channel number (C :sub:`A`) is odd)
+      The equivalent channel number (C) is C = 2*C :sub:`A` - 1
+   Else
+      The equivalent channel number (C) is C = 2*C :sub:`A`
 
-   The equivalent channel number (C) is C = 2*C\ :sub:`A` - 1 Else
+Examples::
 
-   The equivalent channel number (C) is C = 2*C\ :sub:`A`
-
-Examples:
-
-   Alternate 1200 baud channel # 91A is equivalent channel 181 (181 = (2
-   \* 91) - 1).
-
-   Alternate 1200 baud channel # 92A is equivalent channel 184 (184 = 2
-   \* 92).
+   Alternate 1200 baud channel # 91A is equivalent channel 181 (181 = (2* 91) - 1).
+   Alternate 1200 baud channel # 92A is equivalent channel 184 (184 = 2* 92).
 
 Use the following algorithm to translate from the equivalent 300 channel
-designation to alternate or ‘A’ 1200 channel designation:
+designation to alternate or ‘A’ 1200 channel designation::
 
    If (Equivalent channel number (C) is odd)
-
-   The ‘A’ channel number (C\ :sub:`A`) is C\ :sub:`A` = (C + 1) / 2
+      The ‘A’ channel number (C :sub:`A`) is C :sub:`A` = (C + 1) / 2
    Else
+      The ‘A’ channel number (C :sub:`A`) is C :sub:`A` = C / 2
 
-   The ‘A’ channel number (C\ :sub:`A`) is C\ :sub:`A` = C / 2
+Examples::
 
-Examples:
-
-   Equivalent 1200 baud channel # 181 is channel 91A (91 = (181 + 1) /
-   2).
+   Equivalent 1200 baud channel # 181 is channel 91A (91 = (181 + 1) / 2).
 
    Equivalent 1200 baud channel # 184 is channel 92A (92 = 184 / 2).
 
@@ -1465,13 +1469,12 @@ Continuing in this fashion, the allowable CS2 1200 channels become 3, 6,
 304, 307, … 565.
 
 The following algorithm can be used to determine if the channel number
-correlates to an allowable CS2 1200 channel:
+correlates to an allowable CS2 1200 channel::
 
    If (Channel number < 300)
-
-   Valid channel number must be evenly divisible by 3 Else
-
-   Subtract 1 and the resulting value must be evenly divisible by 3
+      Valid channel number must be evenly divisible by 3 
+   Else
+      Subtract 1 and the resulting value must be evenly divisible by 3
 
 *Baud Rate Specifications*
 --------------------------
