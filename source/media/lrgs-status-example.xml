@@ -1,0 +1,839 @@
+<LrgsStatusSnapshot hostname="drot-dcs">
+    <systemStatus>Running</systemStatus>
+    <isUsable>true</isUsable>
+    <SystemTime>1172090100000</SystemTime>
+    <MaxClients>100</MaxClients>
+    <CurrentNumClients>23</CurrentNumClients>
+    <majorVersion>5</majorVersion>
+    <minorVersion>9</minorVersion>
+    <ArchiveStatistics>
+        <dirOldest>0</dirOldest>
+        <dirNext>351434</dirNext>
+        <dirWrap>0</dirWrap>
+        <dirSize>12571940</dirSize>
+        <oldestOffset>0</oldestOffset>
+        <oldestMsgTime>1169423950</oldestMsgTime>
+        <lastSeqNum>59856</lastSeqNum>
+        <maxMessages>0</maxMessages>
+        <maxBytes>0</maxBytes>
+    </ArchiveStatistics>
+    <Process slot="0" pid="29154">
+        <name>127.0.0.1-29154</name>
+        <type>DDS-CLI</type>
+        <user>ilex</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1171721839</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="1" pid="3">
+        <name>192.168.101.177-3</name>
+        <type>DDS-CLI</type>
+        <user>wcdas</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090097</LastPollTime>
+        <LastMsgTime>0</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="2" pid="26244">
+        <name>adsl-75-49-139-242.dsl.scrm01.sbcglobal.net-26244</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>610241</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1172090094</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="3" pid="14168">
+        <name>172.16.101.172-14168</name>
+        <type>DDS-CLI</type>
+        <user>wcdas</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090081</LastPollTime>
+        <LastMsgTime>1170151727</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="4" pid="36065">
+        <name>mvrfw.mvr.usace.army.mil-36065</name>
+        <type>DDS-CLI</type>
+        <user>cemvr</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1169710416</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="5" pid="12">
+        <name>pro-lrgs2.pactide.noaa.gov-12</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>0</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="6" pid="26279">
+        <name>ecyhqeap01.ecy.wa.gov-26279</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1170348631</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="7" pid="30091">
+        <name>exeuntcha.tva.gov-30091</name>
+        <type>DDS-CLI</type>
+        <user>tva</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090077</LastPollTime>
+        <LastMsgTime>1171982931</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="8" pid="37159">
+        <name>gnae911.nae.usace.army.mil-37159</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>39207</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1172090092</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="9" pid="32524">
+        <name>166-70-175-100.ip.xmission.com-32524</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1169710416</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="10" pid="29155">
+        <name>127.0.0.1-29155</name>
+        <type>DDS-CLI</type>
+        <user>ilex</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1171988239</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="11" pid="38100">
+        <name>c-69-250-74-32.hsd1.md.comcast.net-38100</name>
+        <type>DDS-CLI</type>
+        <user>ilex</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090100</LastPollTime>
+        <LastMsgTime>1169710416</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="12" pid="26315">
+        <name>159.87.115.4-26315</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1171960891</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="13" pid="21">
+        <name>hadsdms2.nws.noaa.gov-21</name>
+        <type>DDS-CLI</type>
+        <user>nwsohd</user>
+        <status>running</status>
+        <LastSeqNum>1925146</LastSeqNum>
+        <LastPollTime>1172090087</LastPollTime>
+        <LastMsgTime>1172090092</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="14" pid="36272">
+        <name>mvrfw.mvr.usace.army.mil-36272</name>
+        <type>DDS-CLI</type>
+        <user>cemvr</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>1172090097</LastPollTime>
+        <LastMsgTime>1169710416</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="21" pid="26249">
+        <name>www.ilexengineering.com-26249</name>
+        <type>DDS-CLI</type>
+        <user>ilex</user>
+        <status>running</status>
+        <LastSeqNum>610241</LastSeqNum>
+        <LastPollTime>1172090099</LastPollTime>
+        <LastMsgTime>1172090092</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="23" pid="26250">
+        <name>www.ilexengineering.com-26250</name>
+        <type>DDS-CLI</type>
+        <user>ilex</user>
+        <status>running</status>
+        <LastSeqNum>0</LastSeqNum>
+        <LastPollTime>
+        1172090094</LastPollTime>
+        <LastMsgTime>1170348631</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="24" pid="26248">
+        <name>216.9.77.210-26248</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>610257</LastSeqNum>
+        <LastPollTime>1172089801</LastPollTime>
+        <LastMsgTime>1172090094</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="25" pid="26256">
+        <name>165.127.23.2-26256</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>610262</LastSeqNum>
+        <LastPollTime>1172088012</LastPollTime>
+        <LastMsgTime>1172090092</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="26" pid="26264">
+        <name>142.94.10.239-26264</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>460873</LastSeqNum>
+        <LastPollTime>1172088011</LastPollTime>
+        <LastMsgTime>1172090094</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="27" pid="26258">
+        <name>165.127.23.2-26258</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>610279</LastSeqNum>
+        <LastPollTime>1172088012</LastPollTime>
+        <LastMsgTime>1172090094</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="28" pid="26260">
+        <name>208.187.174.43-26260</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>610253</LastSeqNum>
+        <LastPollTime>1172088011</LastPollTime>
+        <LastMsgTime>1172090094</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <Process slot="29" pid="26263">
+        <name>208.187.174.42-26263</name>
+        <type>DDS-CLI</type>
+        <user>testuser</user>
+        <status>running</status>
+        <LastSeqNum>610257</LastSeqNum>
+        <LastPollTime>1172088003</LastPollTime>
+        <LastMsgTime>1172090094</LastMsgTime>
+        <staleCount>0</staleCount>
+    </Process>
+    <MaxDownlinks>32</MaxDownlinks>
+    <DownLink slot="0" name="DomsatRecv">
+        <type>1</type>
+        <StatusCode>2</StatusCode>
+        <status>Active</status>
+        <LastMsgRecvTime>1172090099</LastMsgRecvTime>
+        <LastSeqNum>59856</LastSeqNum>
+        <BER>89</BER>
+        <Quality hour="0">
+            <numGood>14275</numGood>
+            <numDropped>102</numDropped>
+        </Quality>
+        <Quality hour="1">
+            <numGood>14061</numGood>
+            <numDropped>88</numDropped>
+        </Quality>
+        <Quality hour="2">
+            <numGood>13872</numGood>
+            <numDropped>99</numDropped>
+        </Quality>
+        <Quality hour="3">
+            <numGood>14226</numGood>
+            <numDropped>82</numDropped>
+        </Quality>
+        <Quality hour="4">
+            <numGood>14128</numGood>
+            <numDropped>93</numDropped>
+        </Quality>
+        <Quality hour="5">
+            <numGood>14004</numGood>
+            <numDropped>82</numDropped>
+        </Quality>
+        <Quality hour="6">
+            <numGood>14150</numGood>
+            <numDropped>102</numDropped>
+        </Quality>
+        <Quality hour="7">
+            <numGood>13979</numGood>
+            <numDropped>107</numDropped>
+        </Quality>
+        <Quality hour="8">
+            <numGood>13933</numGood>
+            <numDropped>111</numDropped>
+        </Quality>
+        <Quality hour="9">
+            <numGood>14309</numGood>
+            <numDropped>93</numDropped>
+        </Quality>
+        <Quality hour="10">
+            <numGood>13989</numGood>
+            <numDropped>84</numDropped>
+        </Quality>
+        <Quality hour="11">
+            <numGood>13883</numGood>
+            <numDropped>93</numDropped>
+        </Quality>
+        <Quality hour="12">
+            <numGood>14258</numGood>
+            <numDropped>97</numDropped>
+        </Quality>
+        <Quality hour="13">
+            <numGood>14038</numGood>
+            <numDropped>91</numDropped>
+        </Quality>
+        <Quality hour="14">
+            <numGood>13924</numGood>
+            <numDropped>101</numDropped>
+        </Quality>
+        <Quality hour="15">
+            <numGood>14248</numGood>
+            <numDropped>115</numDropped>
+        </Quality>
+        <Quality hour="16">
+            <numGood>14237</numGood>
+            <numDropped>81</numDropped>
+        </Quality>
+        <Quality hour="17">
+            <numGood>14072</numGood>
+            <numDropped>95</numDropped>
+        </Quality>
+        <Quality hour="18">
+            <numGood>14257</numGood>
+            <numDropped>104</numDropped>
+        </Quality>
+        <Quality hour="19">
+            <numGood>14120</numGood>
+            <numDropped>92</numDropped>
+        </Quality>
+        <Quality hour="20">
+            <numGood>8491</numGood>
+            <numDropped>65</numDropped>
+        </Quality>
+        <Quality hour="21">
+            <numGood>14320</numGood>
+            <numDropped>99</numDropped>
+        </Quality>
+        <Quality hour="22">
+            <numGood>14034</numGood>
+            <numDropped>109</numDropped>
+        </Quality>
+        <Quality hour="23">
+            <numGood>13979</numGood>
+            <numDropped>102</numDropped>
+        </Quality>
+    </DownLink>
+    <DownLink slot="1" name="DDS-Recv:Main">
+        <type>5</type>
+        <StatusCode>2</StatusCode>
+        <status>Active</status>
+        <LastMsgRecvTime>1172090099</LastMsgRecvTime>
+        <Quality hour="0">
+            <numGood>14253</numGood>
+            <numDropped>160</numDropped>
+        </Quality>
+        <Quality hour="1">
+            <numGood>14041</numGood>
+            <numDropped>148</numDropped>
+        </Quality>
+        <Quality hour="2">
+            <numGood>13838</numGood>
+            <numDropped>163</numDropped>
+        </Quality>
+        <Quality hour="3">
+            <numGood>14197</numGood>
+            <numDropped>143</numDropped>
+        </Quality>
+        <Quality hour="4">
+            <numGood>14107</numGood>
+            <numDropped>138</numDropped>
+        </Quality>
+        <Quality hour="5">
+            <numGood>13983</numGood>
+            <numDropped>133</numDropped>
+        </Quality>
+        <Quality hour="6">
+            <numGood>14122</numGood>
+            <numDropped>156</numDropped>
+        </Quality>
+        <Quality hour="7">
+            <numGood>13964</numGood>
+            <numDropped>154</numDropped>
+        </Quality>
+        <Quality hour="8">
+            <numGood>13920</numGood>
+            <numDropped>162</numDropped>
+        </Quality>
+        <Quality hour="9">
+            <numGood>14277</numGood>
+            <numDropped>150</numDropped>
+        </Quality>
+        <Quality hour="10">
+            <numGood>13971</numGood>
+            <numDropped>125</numDropped>
+        </Quality>
+        <Quality hour="11">
+            <numGood>13854</numGood>
+            <numDropped>140</numDropped>
+        </Quality>
+        <Quality hour="12">
+            <numGood>14234</numGood>
+            <numDropped>156</numDropped>
+        </Quality>
+        <Quality hour="13">
+            <numGood>14013</numGood>
+            <numDropped>146</numDropped>
+        </Quality>
+        <Quality hour="14">
+            <numGood>13876</numGood>
+            <numDropped>147</numDropped>
+        </Quality>
+        <Quality hour="15">
+            <numGood>14230</numGood>
+            <numDropped>170</numDropped>
+        </Quality>
+        <Quality hour="16">
+            <numGood>14225</numGood>
+            <numDropped>136</numDropped>
+        </Quality>
+        <Quality hour="17">
+            <numGood>14052</numGood>
+            <numDropped>155</numDropped>
+        </Quality>
+        <Quality hour="18">
+            <numGood>14248</numGood>
+            <numDropped>169</numDropped>
+        </Quality>
+        <Quality hour="19">
+            <numGood>14106</numGood>
+            <numDropped>149</numDropped>
+        </Quality>
+        <Quality hour="20">
+            <numGood>8485</numGood>
+            <numDropped>92</numDropped>
+        </Quality>
+        <Quality hour="21">
+            <numGood>14301</numGood>
+            <numDropped>152</numDropped>
+        </Quality>
+        <Quality hour="22">
+            <numGood>14017</numGood>
+            <numDropped>163</numDropped>
+        </Quality>
+        <Quality hour="23">
+            <numGood>13951</numGood>
+            <numDropped>151</numDropped>
+        </Quality>
+    </DownLink>
+    <DownLink slot="2" name="DRGS-Recv:Main">
+        <type>4</type>
+        <StatusCode>2</StatusCode>
+        <status>Active</status>
+        <LastMsgRecvTime>0</LastMsgRecvTime>
+        <Quality hour="0">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="1">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="2">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="3">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="4">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="5">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="6">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="7">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="8">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="9">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="10">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="11">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="12">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="13">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="14">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="15">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="16">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="17">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="18">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="19">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="20">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="21">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="22">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="23">
+            <numGood>0</numGood>
+        </Quality>
+    </DownLink>
+    <DownLink slot="3" name="DDS:CDADATA">
+        <type>8</type>
+        <StatusCode>5</StatusCode>
+        <status>Real-Time</status>
+        <LastMsgRecvTime>1172090099</LastMsgRecvTime>
+        <Quality hour="0">
+            <numGood>14253</numGood>
+            <numDropped>160</numDropped>
+        </Quality>
+        <Quality hour="1">
+            <numGood>14041</numGood>
+            <numDropped>148</numDropped>
+        </Quality>
+        <Quality hour="2">
+            <numGood>13838</numGood>
+            <numDropped>163</numDropped>
+        </Quality>
+        <Quality hour="3">
+            <numGood>14197</numGood>
+            <numDropped>143</numDropped>
+        </Quality>
+        <Quality hour="4">
+            <numGood>14107</numGood>
+            <numDropped>138</numDropped>
+        </Quality>
+        <Quality hour="5">
+            <numGood>13983</numGood>
+            <numDropped>133</numDropped>
+        </Quality>
+        <Quality hour="6">
+            <numGood>14122</numGood>
+            <numDropped>156</numDropped>
+        </Quality>
+        <Quality hour="7">
+            <numGood>13964</numGood>
+            <numDropped>154</numDropped>
+        </Quality>
+        <Quality hour="8">
+            <numGood>13920</numGood>
+            <numDropped>162</numDropped>
+        </Quality>
+        <Quality hour="9">
+            <numGood>14277</numGood>
+            <numDropped>150</numDropped>
+        </Quality>
+        <Quality hour="10">
+            <numGood>13971</numGood>
+            <numDropped>125</numDropped>
+        </Quality>
+        <Quality hour="11">
+            <numGood>13854</numGood>
+            <numDropped>140</numDropped>
+        </Quality>
+        <Quality hour="12">
+            <numGood>14234</numGood>
+            <numDropped>156</numDropped>
+        </Quality>
+        <Quality hour="13">
+            <numGood>14013</numGood>
+            <numDropped>146</numDropped>
+        </Quality>
+        <Quality hour="14">
+            <numGood>13876</numGood>
+            <numDropped>147</numDropped>
+        </Quality>
+        <Quality hour="15">
+            <numGood>14230</numGood>
+            <numDropped>170</numDropped>
+        </Quality>
+        <Quality hour="16">
+            <numGood>14225</numGood>
+            <numDropped>136</numDropped>
+        </Quality>
+        <Quality hour="17">
+            <numGood>14052</numGood>
+            <numDropped>155</numDropped>
+        </Quality>
+        <Quality hour="18">
+            <numGood>14248</numGood>
+            <numDropped>169</numDropped>
+        </Quality>
+        <Quality hour="19">
+            <numGood>14106</numGood>
+            <numDropped>149</numDropped>
+        </Quality>
+        <Quality hour="20">
+            <numGood>8485</numGood>
+            <numDropped>92</numDropped>
+        </Quality>
+        <Quality hour="21">
+            <numGood>14301</numGood>
+            <numDropped>152</numDropped>
+        </Quality>
+        <Quality hour="22">
+            <numGood>14017</numGood>
+            <numDropped>163</numDropped>
+        </Quality>
+        <Quality hour="23">
+            <numGood>13951</numGood>
+            <numDropped>151</numDropped>
+        </Quality>
+    </DownLink>
+    <DownLink slot="4" name="DDS:CDABACKUP">
+        <type>8</type>
+        <StatusCode>5</StatusCode>
+        <status>Ready</status>
+        <LastMsgRecvTime>1171682030</LastMsgRecvTime>
+        <Quality hour="0">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="1">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="2">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="3">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="4">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="5">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="6">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="7">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="8">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="9">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="10">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="11">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="12">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="13">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="14">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="15">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="16">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="17">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="18">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="19">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="20">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="21">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="22">
+            <numGood>0</numGood>
+        </Quality>
+        <Quality hour="23">
+            <numGood>0</numGood>
+        </Quality>
+    </DownLink>
+    <Quality hour="0">
+        <numGood>14277</numGood>
+        <numDropped>136</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="1">
+        <numGood>14067</numGood>
+        <numDropped>123</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="2">
+        <numGood>13873</numGood>
+        <numDropped>136</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="3">
+        <numGood>14225</numGood>
+        <numDropped>122</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="4">
+        <numGood>14130</numGood>
+        <numDropped>122</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="5">
+        <numGood>14011</numGood>
+        <numDropped>110</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="6">
+        <numGood>14150</numGood>
+        <numDropped>136</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="7">
+        <numGood>13987</numGood>
+        <numDropped>138</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="8">
+        <numGood>13941</numGood>
+        <numDropped>146</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="9">
+        <numGood>14307</numGood>
+        <numDropped>125</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="10">
+        <numGood>13994</numGood>
+        <numDropped>110</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="11">
+        <numGood>13881</numGood>
+        <numDropped>119</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="12">
+        <numGood>14260</numGood>
+        <numDropped>135</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="13">
+        <numGood>14037</numGood>
+        <numDropped>127</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="14">
+        <numGood>13899</numGood>
+        <numDropped>127</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="15">
+        <numGood>14253</numGood>
+        <numDropped>150</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="16">
+        <numGood>14245</numGood>
+        <numDropped>116</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="17">
+        <numGood>14075</numGood>
+        <numDropped>133</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="18">
+        <numGood>14266</numGood>=
+        <numDropped>150</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="19">
+        <numGood>14129</numGood>
+        <numDropped>127</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="20">
+        <numGood>8494</numGood>
+        <numDropped>85</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="21">
+        <numGood>14320</numGood>
+        <numDropped>132</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="22">
+        <numGood>14038</numGood>
+        <numDropped>142</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <Quality hour="23">
+        <numGood>13980</numGood>
+        <numDropped>126</numDropped>
+        <numRecovered>0</numRecovered>
+    </Quality>
+    <domsatDropped>
+        1 0 0 2 14 4123 0 2165 13 0 0 2 8341 1855 1 0 1 0 1 1 0 6 1 1
+    </domsatDropped>
+</LrgsStatusSnapshot>

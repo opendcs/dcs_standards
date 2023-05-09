@@ -6,9 +6,9 @@ DCP Data Service Protocol
 .. contents. Table of Contents
    :depth: 2   
 
-
+************
 Introduction
-============
+************
 
 **DDS** stands for “DCP Data Service”. It is a client/server protocol
 for efficiently transferring DCP data over a network. DDS is in wide use
@@ -19,10 +19,10 @@ This document provides a description of DDS and its history. It also
 defines the client server protocol in detail.
 
 *History of DDS*
-----------------
+================
 
 DDS Protocol Version 1:
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 DDS was originally developed by Integral Systems, Inc., as part of the
 DOMSAT Receive Station product. The DOMSAT Receive Station collected
@@ -34,7 +34,7 @@ USGS, BLM, and other organizations coded their applications to act as
 DDS clients, pulling data from a DOMSAT system in real-time.
 
 DDS Protocol Version 2:
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 In 2000, ILEX Engineering, Inc. (ILEX) produced a Java implementation of
 DDS for use in the LRGS (Local Readout Ground Station) DOMSAT receiver.
@@ -46,7 +46,7 @@ would have to rely on persistent lists that were pre-loaded on the
 server.
 
 DDS Protocol Version 3:
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 For LRGS Release 3.3, ILEX added a password-protection mechanism to DDS.
 This work was done under contract to the USGS. The mechanism uses a
@@ -55,7 +55,7 @@ by monitoring network traffic. This document provides the details on the
 password exchange when a client establishes a connection.
 
 DDS Protocol Version 4 and 5:
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------
 
 Ilex participated in an effort to build a replacement for the central
 DCP message processing system in Wallops, VA. This work was done for
@@ -77,7 +77,7 @@ Successive versions are additive. None of the original features have
 been deprecated.
 
 DDS Protocol Version 6:
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 In this version, secure administrative commands have been added. All of
 these commands are restricted to authenticated users that have been
@@ -87,7 +87,7 @@ granted administrative privileges on the server. These commands include:
       modify DDS user accounts on the server.
 
 DDS Protocol Version 8
-^^^^^^^^^^^^^^^^^^^^^^
+----------------------
 
 The commands were added:
 
@@ -109,38 +109,38 @@ The commands were added:
       outages.
 
 DDS Protocol Version 10
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 -  Support added for Iridium messages, which have a different header
       structure from GOES. Servers must not send Iridium messages to
       clients with a version < 10.
 
 DDS Protocol Version 11
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 -  Added “single mode” as a settable param in search criteria.
 
 -  Added <LocalRecvTime> element in XML message block
 
 DDS Protocol Version 12
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 -  Added new SOURCE names to search criteria: GOES_SELFTIMED,
       GOES_RANDOM.
 
 DDS Protocol Version 13 – Jan 30, 2016
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 -  Addition of Set PW Function. This allows the server to evaluate
       password quality.
 
 DDS Protocol Version 14 – Feb 29, 2016
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------------------
 
 -  Support for SHA256 for the hashing function for authentication.
 
 *RFC 2119 Conformance*
-----------------------
+======================
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in
@@ -206,29 +206,34 @@ used:
 Some requests and responses contain a time stamp. All time stamps MUST
 be in UTC and SHALL be formatted as follows:
 
+..  code-block:: ebnf
+
    time ::= YYDDDHHMMSS
 
 ‘YY’ is the last two digits of the year.
-
 ‘DDD’ is the Julian day of the year (January 1 == day 1) ‘HHMMSS’ is the
 UTC hour, minute, and second of the day.
 
 Integers are made up of at least one digit:
 
+..  code-block:: ebnf
+
    integer ::= DIGIT { DIGIT }
 
 Hex numbers are represented by <hexstring>:
 
-   hexstring ::= hexdigit { hexdigit } hexdigit :: DIGIT \|
+..  code-block:: ebnf
 
-   ‘a’ \| ‘b’ \| ‘c’ \| ‘d’ \| ‘e’ \| ‘f’ \|
-
-   ‘A’ \| ‘B’ \| ‘C’ \| ‘D’ \| ‘E’ \| ‘F’ \|
+   hexstring ::= hexdigit { hexdigit } 
+   hexdigit :: DIGIT | ‘a’ | ‘b’ | ‘c’ | ‘d’ | ‘e’ | ‘f’ | ‘A’ | ‘B’ | ‘C’ | ‘D’ | ‘E’ | ‘F’ 
 
 A “NAME” is an alphanumeric string that contains no whitespace. It must
 begin with a letter.
 
-   NAME ::= letter { letter \| digit \| underscore } underscore ::= '_'
+..  code-block:: ebnf
+
+   NAME ::= letter { letter | digit | underscore } 
+   underscore ::= '_'
 
 A special identifier ‘empty’ is occasionally used to explicitly indicate
 a field that contains no data (i.e. zero length)
@@ -245,12 +250,13 @@ observed by all message types.
 Each request and response is composed of a 10-byte header followed by a
 variable length body. Protocol messages are constructed as follows:
 
-   DdsMessage ::= header body header ::= sync type length sync ::=
-   'FAF0'
+..  code-block:: ebnf
 
-   type ::= octet # unique type codes defined for each message length
-   ::= DIGIT DIGIT DIGIT DIGIT DIGIT # 5-digit number
-
+   DdsMessage ::= header body 
+   header ::= sync type length 
+   sync ::= 'FAF0'
+   type ::= octet # unique type codes defined for each message 
+   length ::= DIGIT DIGIT DIGIT DIGIT DIGIT # 5-digit number
    body ::= OCTET_STRING
 
 First 4 bytes MUST be the ASCII characters “FAF0” (the last character is
@@ -276,11 +282,11 @@ error response. Exactly one response MUST be returned for each request.
 
 The body portion of an error responses MUST be formatted as follows:
 
+..  code-block:: ebnf
+
    ErrorBody ::= '?' ServerCode ',' SystemCode ',' [ explanation ]
    ServerCode ::= integer
-
    SystemCode ::= integer
-
    explanation ::= STRING # optional free-form ASCII string
 
 The SystemCode is a Unix ‘errno’ value. This may be zero if the error
@@ -653,11 +659,13 @@ Authentication by Assertion is safe under the following conditions:
 The type-code for IdHello is ‘a’. The body of the request and response
 MUST be as follows:
 
-   HelloRequest ::= username
+..  code-block:: ebnf
 
-   username ::= NAME # no more than 80 chars HelloResponse ::=
-   AcceptResponse \| ErrorBody AcceptResponse ::= username [ SP
-   ProtocolVersion ] ProtocolVersion ::= integer
+   HelloRequest ::= username
+   username ::= NAME # no more than 80 chars 
+   HelloResponse ::= AcceptResponse | ErrorBody 
+   AcceptResponse ::= username [ SP ProtocolVersion ] 
+   ProtocolVersion ::= integer
 
 The body of the request contains the user name. Older implementations
 padded this name
@@ -681,16 +689,15 @@ authenticated connections.
 An ‘authenticated hello message’ has a type-code of IdAuthHello = ‘m’.
 The body is as follows:
 
-   AuthHelloBody ::= username SP time SP AuthenticatorHash username ::=
-   NAME
+..  code-block:: ebnf
 
+   AuthHelloBody ::= username SP time SP AuthenticatorHash
+   username ::= NAME
    # time is UTC date/time stamp in format YYDDDHHMMSS
-
-   AuthenticatorHash ::= hexstring # 40 hex digits for SHA, 64 for
-   SHA-256 # Response is as follows:
-
-   AuthHelloResp ::= AuthAcceptResp \| ErrorBody AuthAcceptResp ::=
-   username SP time SP ProtocolVersion ProtocolVersion ::= integer
+   AuthenticatorHash ::= hexstring # 40 hex digits for SHA, 64 for SHA-256 # Response is as follows:
+   AuthHelloResp ::= AuthAcceptResp | ErrorBody 
+   AuthAcceptResp ::= username SP time SP ProtocolVersion
+   ProtocolVersion ::= integer
 
 *Username* must represent a valid user on the server. The time should be
 the current time in the UTC (GMT) time-zone. The server SHOULD check for
@@ -784,13 +791,13 @@ session, or until another search criteria is sent.
 
 The type-code for IdCriteria is ‘g’.
 
+..  code-block:: ebnf
+
    SearchCritReq ::= FiftyBlanks CriteriaText
-
-   FiftyBlanks ::= 50*( SP ) # 50 ASCII space characters CriteriaText
-   ::= OCTET_STRING
-
-   # Response is either error or just the 50-blanks SearchCritResp ::=
-   ErrorBody \| FiftyBlanks
+   FiftyBlanks ::= 50*( SP ) # 50 ASCII space characters
+   CriteriaText ::= OCTET_STRING
+   # Response is either error or just the 50-blanks
+   SearchCritResp ::= ErrorBody | FiftyBlanks
 
 The “FiftyBlanks” field used to contain a file-name that was used only
 by the client (the server simply echoed it). This is deprecated. Clients
@@ -855,13 +862,13 @@ transient network lists are limited to (99999 – 64) bytes.
 The type-code for IdPutNetlist is ‘j’. This command uploads a list from
 the client to the server.
 
-   PutNetlistReq ::= filename ListText
+..  code-block:: ebnf
 
+   PutNetlistReq ::= filename ListText
    filename ::= NAME { SP } # Name left-justified in 64-char field
    ListText ::= OCTET_STRING
-
-   # Response is either empty or an ErrorBody PutNetlistResp ::= empty
-   \| ErrorBody
+   # Response is either empty or an ErrorBody 
+   PutNetlistResp ::= empty | ErrorBody
 
 The file name field must be exactly 64 characters long. The name is left
 justified in the field and padded with blanks. The name field SHOULD NOT
@@ -885,10 +892,11 @@ persistent lists.
 The type-code for IdGetNetlist is ‘k’. This command downloads a list
 from the server to the client.
 
-   GetNetlistReq ::= filename
+..  code-block:: ebnf
 
+   GetNetlistReq ::= filename
    filename ::= NAME { SP } # Name left-justified in a 64-char field
-   GetNetlistResp ::= ErrorBody \| ( filename ListText )
+   GetNetlistResp ::= ErrorBody | ( filename ListText )
 
 Following the header is a 64-character field containing the network list
 file name, left justified. The name field SHOULD NOT contain path
@@ -912,12 +920,12 @@ Network List Files are ASCII Files containing a DCP addresses, one per
 line. Each line MUST be terminated by a single line-feed character. The
 format of each line is as follows:
 
-   NetlistFile ::= { NetlistLine }
+..  code-block:: ebnf
 
+   NetlistFile ::= { NetlistLine }
    NetlistLine ::= DcpAddress [ ':' NAME [ SP Description ] ] EOL
    Description ::= STRING
-
-   EOL ::= LF \| CRLF
+   EOL ::= LF | CRLF
 
 Example
 
@@ -1104,17 +1112,15 @@ The server MUST send a response of type IdDcpBlock. The body of the
 response will be either an ErrorBody or it will contain multiple DCP
 messages, back-to-back:
 
+..  code-block:: ebnf
+   
    # Request body is empty MultDcpReqBody ::= empty
-
    # Response contains DCP messages back-to-back:
-
-   MultDcpRespBody ::= ErrorBody \| MultMessages
-
+   MultDcpRespBody ::= ErrorBody | MultMessages
    MultMessages ::= DcpMessage { DcpMessage } # at least 1 message
    DcpMessage ::= DOMSATHeader DcpMsgBody
-
-   # DOMSATHeader ::= 37-bytes as defined in table DcpMsgBody ::=
-   OCTET_STRING # Actual message bytes
+   # DOMSATHeader ::= 37-bytes as defined in table
+   DcpMsgBody ::= OCTET_STRING # Actual message bytes
 
 The server will place messages into the response up to a maximum of
 10,000 bytes. The server MUST only place complete DCP messages into the
@@ -1147,30 +1153,27 @@ The server MUST send a response of type IdDcpBlockExt. The body of the
 response will be either an ErrorBody or it will contain multiple DCP
 messages, back-to-back:
 
-   # Request body is empty ExtMultDcpReqBody ::= empty
+..  code-block:: ebnf
 
-   # Response contains DCP messages back-to-back: ExtMultDcpRespBody ::=
-   ErrorBody \| ExtMultMessages ExtMultMessages ::= GZIP(
-   ExtMultMsgBlock )
+   # Request body is empty ExtMultDcpReqBody ::= empty
+   # Response contains DCP messages back-to-back: 
+   ExtMultDcpRespBody ::= ErrorBody | ExtMultMessages
+   ExtMultMessages ::= GZIP( ExtMultMsgBlock )
 
 Each ‘ExtMultMsgBlock’ is a block of XML with the format:
 
+..  code-block:: xml
+
    <MsgBlock>
-
-   <DcpMsg flags=0xnnnn>
-
-   <BinaryMsg>BASE64(DOMSAT Header and msg data)</BinaryMsg>
-   [<CarrierStart>YYYY/DDD HH:MM:SS.mmm</carrierStart>]
-   [<CarrierStop>YYYY/DDD HH:MM:SS.mmm</carrierStop>]
-   [<DomsatTime>YYYY/DDD HH:MM:SS.mmm</domsatTime>]
-   [<DomsatSeq>NNNNN</domsatSeq>]
-
-   [<Baud>NNNN</baud>]
-
-   </DcpMsg>
-
-   ...\ *additional DcpMsg blocks here*
-
+      <DcpMsg flags=0xnnnn>
+      <BinaryMsg>BASE64(DOMSAT Header and msg data)</BinaryMsg>
+         [<CarrierStart>YYYY/DDD HH:MM:SS.mmm</carrierStart>]
+         [<CarrierStop>YYYY/DDD HH:MM:SS.mmm</carrierStop>]
+         [<DomsatTime>YYYY/DDD HH:MM:SS.mmm</domsatTime>]
+         [<DomsatSeq>NNNNN</domsatSeq>]
+         [<Baud>NNNN</baud>]
+      </DcpMsg>
+      <!-- ...\ *additional DcpMsg blocks here* -->
    </MsgBlock>
 
 The BASE64 encoding of the DOMSAT header and data is necessary to
@@ -1182,13 +1185,14 @@ prevent the XML formatter and parsers from modifying white-space.
    1. .. rubric:: *Get Events*
          :name: get-events
 
-..
+..  code-block:: ebnf
 
-   GetEventsReqBody ::= *empty* GetEventsResp ::= [ event ] event ::=
-   priority time msg
+   GetEventsReqBody ::= *empty*
+   GetEventsResp ::= [ event ] 
+   event ::= priority time msg
 
-   priority ::= 'INFO' \| 'WARNING' \| 'FAILURE' \| 'FATAL' time ::=
-   YYYY/MM/DD-HH:MM:SS
+   priority ::= 'INFO' | 'WARNING' | 'FAILURE' | 'FATAL' 
+   time ::= YYYY/MM/DD-HH:MM:SS
 
    msg ::= STRING
 
@@ -1200,1689 +1204,16 @@ any, that have occurred.
 *Get Status*
 ------------
 
-   GetStatusReqBody ::= *empty*
+..  code-block:: ebnf
 
+   GetStatusReqBody ::= *empty*
    GetStatusResp ::= Block of XML Information
 
 The exact status information returned may vary with the server
 implementation. The following figure shows an example status block from
 version 5.9 of the LRGS
 
-   <LrgsStatusSnapshot hostname="drot-dcs">
-
-   <systemStatus>Running</systemStatus>
-
-   <isUsable>true</isUsable>
-
-   <SystemTime>1172090100000</SystemTime>
-
-   <MaxClients>100</MaxClients>
-
-   <CurrentNumClients>23</CurrentNumClients>
-
-   <majorVersion>5</majorVersion>
-
-   <minorVersion>9</minorVersion>
-
-   <ArchiveStatistics>
-
-   <dirOldest>0</dirOldest>
-
-   <dirNext>351434</dirNext>
-
-   <dirWrap>0</dirWrap>
-
-   <dirSize>12571940</dirSize>
-
-   <oldestOffset>0</oldestOffset>
-
-   <oldestMsgTime>1169423950</oldestMsgTime>
-
-   <lastSeqNum>59856</lastSeqNum>
-
-   <maxMessages>0</maxMessages>
-
-   <maxBytes>0</maxBytes>
-
-   </ArchiveStatistics>
-
-<Process slot="0" pid="29154">
-
-<name>127.0.0.1-29154</name>
-
-   <type>DDS-CLI</type>
-
-   <user>ilex</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1171721839</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="1" pid="3">
-
-   <name>192.168.101.177-3</name>
-
-   <type>DDS-CLI</type>
-
-   <user>wcdas</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090097</LastPollTime>
-
-   <LastMsgTime>0</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="2" pid="26244">
-
-   <name>adsl-75-49-139-242.dsl.scrm01.sbcglobal.net-26244</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>610241</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1172090094</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="3" pid="14168">
-
-   <name>172.16.101.172-14168</name>
-
-   <type>DDS-CLI</type>
-
-   <user>wcdas</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090081</LastPollTime>
-
-   <LastMsgTime>1170151727</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="4" pid="36065">
-
-   <name>mvrfw.mvr.usace.army.mil-36065</name>
-
-   <type>DDS-CLI</type>
-
-   <user>cemvr</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1169710416</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="5" pid="12">
-
-   <name>pro-lrgs2.pactide.noaa.gov-12</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>0</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="6" pid="26279">
-
-   <name>ecyhqeap01.ecy.wa.gov-26279</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1170348631</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="7" pid="30091">
-
-   <name>exeuntcha.tva.gov-30091</name>
-
-   <type>DDS-CLI</type>
-
-   <user>tva</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090077</LastPollTime>
-
-   <LastMsgTime>1171982931</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="8" pid="37159">
-
-   <name>gnae911.nae.usace.army.mil-37159</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>39207</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1172090092</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="9" pid="32524">
-
-   <name>166-70-175-100.ip.xmission.com-32524</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1169710416</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="10" pid="29155">
-
-   <name>127.0.0.1-29155</name>
-
-   <type>DDS-CLI</type>
-
-   <user>ilex</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1171988239</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="11" pid="38100">
-
-   <name>c-69-250-74-32.hsd1.md.comcast.net-38100</name>
-
-   <type>DDS-CLI</type>
-
-   <user>ilex</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090100</LastPollTime>
-
-   <LastMsgTime>1169710416</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="12" pid="26315">
-
-   <name>159.87.115.4-26315</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1171960891</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="13" pid="21">
-
-   <name>hadsdms2.nws.noaa.gov-21</name>
-
-   <type>DDS-CLI</type>
-
-   <user>nwsohd</user>
-
-   <status>running</status>
-
-   <LastSeqNum>1925146</LastSeqNum>
-
-   <LastPollTime>1172090087</LastPollTime>
-
-   <LastMsgTime>1172090092</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="14" pid="36272">
-
-   <name>mvrfw.mvr.usace.army.mil-36272</name>
-
-   <type>DDS-CLI</type>
-
-   <user>cemvr</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090097</LastPollTime>
-
-   <LastMsgTime>1169710416</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="21" pid="26249">
-
-   `<name>www.ilexengineering.com <http://www.ilexengineering.com-26249/>`__-26249</name>
-
-   <type>DDS-CLI</type>
-
-   <user>ilex</user>
-
-   <status>running</status>
-
-   <LastSeqNum>610241</LastSeqNum>
-
-   <LastPollTime>1172090099</LastPollTime>
-
-   <LastMsgTime>1172090092</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="23" pid="26250">
-
-   `<name>www.ilexengineering.com <http://www.ilexengineering.com-26250/>`__-26250</name>
-
-   <type>DDS-CLI</type>
-
-   <user>ilex</user>
-
-   <status>running</status>
-
-   <LastSeqNum>0</LastSeqNum>
-
-   <LastPollTime>1172090094</LastPollTime>
-
-   <LastMsgTime>1170348631</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="24" pid="26248">
-
-   <name>216.9.77.210-26248</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>610257</LastSeqNum>
-
-   <LastPollTime>1172089801</LastPollTime>
-
-   <LastMsgTime>1172090094</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="25" pid="26256">
-
-   <name>165.127.23.2-26256</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>610262</LastSeqNum>
-
-   <LastPollTime>1172088012</LastPollTime>
-
-   <LastMsgTime>1172090092</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="26" pid="26264">
-
-   <name>142.94.10.239-26264</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>460873</LastSeqNum>
-
-   <LastPollTime>1172088011</LastPollTime>
-
-   <LastMsgTime>1172090094</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="27" pid="26258">
-
-   <name>165.127.23.2-26258</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>610279</LastSeqNum>
-
-   <LastPollTime>1172088012</LastPollTime>
-
-   <LastMsgTime>1172090094</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="28" pid="26260">
-
-   <name>208.187.174.43-26260</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>610253</LastSeqNum>
-
-   <LastPollTime>1172088011</LastPollTime>
-
-   <LastMsgTime>1172090094</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <Process slot="29" pid="26263">
-
-   <name>208.187.174.42-26263</name>
-
-   <type>DDS-CLI</type>
-
-   <user>testuser</user>
-
-   <status>running</status>
-
-   <LastSeqNum>610257</LastSeqNum>
-
-   <LastPollTime>1172088003</LastPollTime>
-
-   <LastMsgTime>1172090094</LastMsgTime>
-
-   <staleCount>0</staleCount>
-
-   </Process>
-
-   <MaxDownlinks>32</MaxDownlinks>
-
-   <DownLink slot="0" name="DomsatRecv">
-
-   <type>1</type>
-
-   <StatusCode>2</StatusCode>
-
-   <status>Active</status>
-
-   <LastMsgRecvTime>1172090099</LastMsgRecvTime>
-
-   <LastSeqNum>59856</LastSeqNum>
-
-   <BER>89</BER>
-
-   <Quality hour="0">
-
-   <numGood>14275</numGood>
-
-   <numDropped>102</numDropped>
-
-   </Quality>
-
-   <Quality hour="1">
-
-   <numGood>14061</numGood>
-
-   <numDropped>88</numDropped>
-
-   </Quality>
-
-   <Quality hour="2">
-
-   <numGood>13872</numGood>
-
-   <numDropped>99</numDropped>
-
-   </Quality>
-
-   <Quality hour="3">
-
-   <numGood>14226</numGood>
-
-   <numDropped>82</numDropped>
-
-   </Quality>
-
-   <Quality hour="4">
-
-   <numGood>14128</numGood>
-
-   <numDropped>93</numDropped>
-
-   </Quality>
-
-   <Quality hour="5">
-
-   <numGood>14004</numGood>
-
-   <numDropped>82</numDropped>
-
-   </Quality>
-
-   <Quality hour="6">
-
-   <numGood>14150</numGood>
-
-   <numDropped>102</numDropped>
-
-   </Quality>
-
-   <Quality hour="7">
-
-   <numGood>13979</numGood>
-
-   <numDropped>107</numDropped>
-
-   </Quality>
-
-   <Quality hour="8">
-
-   <numGood>13933</numGood>
-
-   <numDropped>111</numDropped>
-
-   </Quality>
-
-   <Quality hour="9">
-
-   <numGood>14309</numGood>
-
-   <numDropped>93</numDropped>
-
-   </Quality>
-
-   <Quality hour="10">
-
-   <numGood>13989</numGood>
-
-   <numDropped>84</numDropped>
-
-   </Quality>
-
-   <Quality hour="11">
-
-   <numGood>13883</numGood>
-
-   <numDropped>93</numDropped>
-
-   </Quality>
-
-   <Quality hour="12">
-
-   <numGood>14258</numGood>
-
-   <numDropped>97</numDropped>
-
-   </Quality>
-
-   <Quality hour="13">
-
-   <numGood>14038</numGood>
-
-   <numDropped>91</numDropped>
-
-   </Quality>
-
-   <Quality hour="14">
-
-   <numGood>13924</numGood>
-
-   <numDropped>101</numDropped>
-
-   </Quality>
-
-   <Quality hour="15">
-
-   <numGood>14248</numGood>
-
-   <numDropped>115</numDropped>
-
-   </Quality>
-
-   <Quality hour="16">
-
-   <numGood>14237</numGood>
-
-   <numDropped>81</numDropped>
-
-   </Quality>
-
-   <Quality hour="17">
-
-   <numGood>14072</numGood>
-
-   <numDropped>95</numDropped>
-
-   </Quality>
-
-   <Quality hour="18">
-
-   <numGood>14257</numGood>
-
-   <numDropped>104</numDropped>
-
-   </Quality>
-
-   <Quality hour="19">
-
-   <numGood>14120</numGood>
-
-   <numDropped>92</numDropped>
-
-   </Quality>
-
-   <Quality hour="20">
-
-   <numGood>8491</numGood>
-
-   <numDropped>65</numDropped>
-
-   </Quality>
-
-   <Quality hour="21">
-
-   <numGood>14320</numGood>
-
-   <numDropped>99</numDropped>
-
-   </Quality>
-
-   <Quality hour="22">
-
-   <numGood>14034</numGood>
-
-   <numDropped>109</numDropped>
-
-   </Quality>
-
-   <Quality hour="23">
-
-   <numGood>13979</numGood>
-
-   <numDropped>102</numDropped>
-
-</Quality>
-
-</DownLink>
-
-   <DownLink slot="1" name="DDS-Recv:Main">
-
-   <type>5</type>
-
-   <StatusCode>2</StatusCode>
-
-   <status>Active</status>
-
-   <LastMsgRecvTime>1172090099</LastMsgRecvTime>
-
-   <Quality hour="0">
-
-   <numGood>14253</numGood>
-
-   <numDropped>160</numDropped>
-
-   </Quality>
-
-   <Quality hour="1">
-
-   <numGood>14041</numGood>
-
-   <numDropped>148</numDropped>
-
-   </Quality>
-
-   <Quality hour="2">
-
-   <numGood>13838</numGood>
-
-   <numDropped>163</numDropped>
-
-   </Quality>
-
-   <Quality hour="3">
-
-   <numGood>14197</numGood>
-
-   <numDropped>143</numDropped>
-
-   </Quality>
-
-   <Quality hour="4">
-
-   <numGood>14107</numGood>
-
-   <numDropped>138</numDropped>
-
-   </Quality>
-
-   <Quality hour="5">
-
-   <numGood>13983</numGood>
-
-   <numDropped>133</numDropped>
-
-   </Quality>
-
-   <Quality hour="6">
-
-   <numGood>14122</numGood>
-
-   <numDropped>156</numDropped>
-
-   </Quality>
-
-   <Quality hour="7">
-
-   <numGood>13964</numGood>
-
-   <numDropped>154</numDropped>
-
-   </Quality>
-
-   <Quality hour="8">
-
-   <numGood>13920</numGood>
-
-   <numDropped>162</numDropped>
-
-   </Quality>
-
-   <Quality hour="9">
-
-   <numGood>14277</numGood>
-
-   <numDropped>150</numDropped>
-
-   </Quality>
-
-   <Quality hour="10">
-
-   <numGood>13971</numGood>
-
-   <numDropped>125</numDropped>
-
-   </Quality>
-
-   <Quality hour="11">
-
-   <numGood>13854</numGood>
-
-   <numDropped>140</numDropped>
-
-   </Quality>
-
-   <Quality hour="12">
-
-   <numGood>14234</numGood>
-
-   <numDropped>156</numDropped>
-
-   </Quality>
-
-   <Quality hour="13">
-
-   <numGood>14013</numGood>
-
-   <numDropped>146</numDropped>
-
-   </Quality>
-
-   <Quality hour="14">
-
-   <numGood>13876</numGood>
-
-   <numDropped>147</numDropped>
-
-   </Quality>
-
-   <Quality hour="15">
-
-   <numGood>14230</numGood>
-
-   <numDropped>170</numDropped>
-
-   </Quality>
-
-   <Quality hour="16">
-
-   <numGood>14225</numGood>
-
-   <numDropped>136</numDropped>
-
-   </Quality>
-
-   <Quality hour="17">
-
-   <numGood>14052</numGood>
-
-   <numDropped>155</numDropped>
-
-   </Quality>
-
-   <Quality hour="18">
-
-   <numGood>14248</numGood>
-
-   <numDropped>169</numDropped>
-
-   </Quality>
-
-   <Quality hour="19">
-
-   <numGood>14106</numGood>
-
-   <numDropped>149</numDropped>
-
-   </Quality>
-
-   <Quality hour="20">
-
-   <numGood>8485</numGood>
-
-   <numDropped>92</numDropped>
-
-   </Quality>
-
-   <Quality hour="21">
-
-   <numGood>14301</numGood>
-
-   <numDropped>152</numDropped>
-
-   </Quality>
-
-   <Quality hour="22">
-
-   <numGood>14017</numGood>
-
-   <numDropped>163</numDropped>
-
-   </Quality>
-
-   <Quality hour="23">
-
-   <numGood>13951</numGood>
-
-   <numDropped>151</numDropped>
-
-</Quality>
-
-</DownLink>
-
-   <DownLink slot="2" name="DRGS-Recv:Main">
-
-   <type>4</type>
-
-   <StatusCode>2</StatusCode>
-
-   <status>Active</status>
-
-   <LastMsgRecvTime>0</LastMsgRecvTime>
-
-   <Quality hour="0">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="1">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="2">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="3">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="4">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="5">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="6">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="7">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="8">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="9">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="10">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="11">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="12">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="13">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="14">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="15">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="16">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="17">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="18">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="19">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="20">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="21">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="22">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="23">
-
-   <numGood>0</numGood>
-
-</Quality>
-
-</DownLink>
-
-   <DownLink slot="3" name="DDS:CDADATA">
-
-   <type>8</type>
-
-   <StatusCode>5</StatusCode>
-
-   <status>Real-Time</status>
-
-   <LastMsgRecvTime>1172090099</LastMsgRecvTime>
-
-   <Quality hour="0">
-
-   <numGood>14253</numGood>
-
-   <numDropped>160</numDropped>
-
-   </Quality>
-
-   <Quality hour="1">
-
-   <numGood>14041</numGood>
-
-   <numDropped>148</numDropped>
-
-   </Quality>
-
-   <Quality hour="2">
-
-   <numGood>13838</numGood>
-
-   <numDropped>163</numDropped>
-
-   </Quality>
-
-   <Quality hour="3">
-
-   <numGood>14197</numGood>
-
-   <numDropped>143</numDropped>
-
-   </Quality>
-
-   <Quality hour="4">
-
-   <numGood>14107</numGood>
-
-   <numDropped>138</numDropped>
-
-   </Quality>
-
-   <Quality hour="5">
-
-   <numGood>13983</numGood>
-
-   <numDropped>133</numDropped>
-
-   </Quality>
-
-   <Quality hour="6">
-
-   <numGood>14122</numGood>
-
-   <numDropped>156</numDropped>
-
-   </Quality>
-
-   <Quality hour="7">
-
-   <numGood>13964</numGood>
-
-   <numDropped>154</numDropped>
-
-   </Quality>
-
-   <Quality hour="8">
-
-   <numGood>13920</numGood>
-
-   <numDropped>162</numDropped>
-
-   </Quality>
-
-   <Quality hour="9">
-
-   <numGood>14277</numGood>
-
-   <numDropped>150</numDropped>
-
-   </Quality>
-
-   <Quality hour="10">
-
-   <numGood>13971</numGood>
-
-   <numDropped>125</numDropped>
-
-   </Quality>
-
-   <Quality hour="11">
-
-   <numGood>13854</numGood>
-
-   <numDropped>140</numDropped>
-
-   </Quality>
-
-   <Quality hour="12">
-
-   <numGood>14234</numGood>
-
-   <numDropped>156</numDropped>
-
-   </Quality>
-
-   <Quality hour="13">
-
-   <numGood>14013</numGood>
-
-   <numDropped>146</numDropped>
-
-   </Quality>
-
-   <Quality hour="14">
-
-   <numGood>13876</numGood>
-
-   <numDropped>147</numDropped>
-
-   </Quality>
-
-   <Quality hour="15">
-
-   <numGood>14230</numGood>
-
-   <numDropped>170</numDropped>
-
-   </Quality>
-
-   <Quality hour="16">
-
-   <numGood>14225</numGood>
-
-   <numDropped>136</numDropped>
-
-   </Quality>
-
-   <Quality hour="17">
-
-   <numGood>14052</numGood>
-
-   <numDropped>155</numDropped>
-
-   </Quality>
-
-   <Quality hour="18">
-
-   <numGood>14248</numGood>
-
-   <numDropped>169</numDropped>
-
-   </Quality>
-
-   <Quality hour="19">
-
-   <numGood>14106</numGood>
-
-   <numDropped>149</numDropped>
-
-   </Quality>
-
-   <Quality hour="20">
-
-   <numGood>8485</numGood>
-
-   <numDropped>92</numDropped>
-
-   </Quality>
-
-   <Quality hour="21">
-
-   <numGood>14301</numGood>
-
-   <numDropped>152</numDropped>
-
-   </Quality>
-
-   <Quality hour="22">
-
-   <numGood>14017</numGood>
-
-   <numDropped>163</numDropped>
-
-   </Quality>
-
-   <Quality hour="23">
-
-   <numGood>13951</numGood>
-
-   <numDropped>151</numDropped>
-
-</Quality>
-
-</DownLink>
-
-   <DownLink slot="4" name="DDS:CDABACKUP">
-
-   <type>8</type>
-
-   <StatusCode>5</StatusCode>
-
-   <status>Ready</status>
-
-   <LastMsgRecvTime>1171682030</LastMsgRecvTime>
-
-   <Quality hour="0">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="1">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="2">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="3">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="4">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="5">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="6">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="7">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="8">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="9">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="10">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="11">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="12">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="13">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="14">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="15">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="16">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="17">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="18">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="19">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="20">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="21">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="22">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   <Quality hour="23">
-
-   <numGood>0</numGood>
-
-   </Quality>
-
-   </DownLink>
-
-   <Quality hour="0">
-
-   <numGood>14277</numGood>
-
-   <numDropped>136</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="1">
-
-   <numGood>14067</numGood>
-
-   <numDropped>123</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="2">
-
-   <numGood>13873</numGood>
-
-   <numDropped>136</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="3">
-
-   <numGood>14225</numGood>
-
-   <numDropped>122</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="4">
-
-   <numGood>14130</numGood>
-
-   <numDropped>122</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="5">
-
-   <numGood>14011</numGood>
-
-   <numDropped>110</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="6">
-
-   <numGood>14150</numGood>
-
-   <numDropped>136</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="7">
-
-   <numGood>13987</numGood>
-
-   <numDropped>138</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="8">
-
-   <numGood>13941</numGood>
-
-   <numDropped>146</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="9">
-
-   <numGood>14307</numGood>
-
-   <numDropped>125</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="10">
-
-   <numGood>13994</numGood>
-
-   <numDropped>110</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="11">
-
-   <numGood>13881</numGood>
-
-   <numDropped>119</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="12">
-
-   <numGood>14260</numGood>
-
-   <numDropped>135</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="13">
-
-   <numGood>14037</numGood>
-
-   <numDropped>127</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="14">
-
-   <numGood>13899</numGood>
-
-   <numDropped>127</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="15">
-
-   <numGood>14253</numGood>
-
-   <numDropped>150</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="16">
-
-   <numGood>14245</numGood>
-
-   <numDropped>116</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="17">
-
-   <numGood>14075</numGood>
-
-   <numDropped>133</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="18">
-
-   <numGood>14266</numGood>
-
-   <numDropped>150</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="19">
-
-   <numGood>14129</numGood>
-
-   <numDropped>127</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="20">
-
-   <numGood>8494</numGood>
-
-   <numDropped>85</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="21">
-
-   <numGood>14320</numGood>
-
-   <numDropped>132</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="22">
-
-   <numGood>14038</numGood>
-
-   <numDropped>142</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <Quality hour="23">
-
-   <numGood>13980</numGood>
-
-   <numDropped>126</numDropped>
-
-   <numRecovered>0</numRecovered>
-
-   </Quality>
-
-   <domsatDropped>
-
-   1 0 0 2 14 4123 0 2165 13 0 0 2 8341 1855 1 0 1 0 1 1 0 6 1 1
-
-   </domsatDropped>
-
-   </LrgsStatusSnapshot>
+..  literalinclude:: media/lrgs-status-example.xml
 
 Administrative Functions
 ========================
@@ -2898,13 +1229,15 @@ been granted a special administrative privilege.
 A ‘user administration request’ has a type-code of IdUser = ‘u’. The
 body is as follows:
 
-   userRequestBody ::= listRequest \| setRequest \| removeRequest
+..  code-block:: ebnf
+
+   userRequestBody ::= listRequest | setRequest | removeRequest
    listRequest ::= 'list'
 
    setRequest ::= 'set' SP username SP encryptAuth SP roles SP props
    username ::= NAME # no more than 80 chars
 
-   encryptAuth ::= '-' \| NAME # Encrypted pw or '-' to leave unchanged
+   encryptAuth ::= '-' | NAME # Encrypted pw or '-' to leave unchanged
    roles ::= NAME [',' roles] # One or more roles for this user
 
    props ::= NAME '=' NAME [',' props] # 0 or more name=value pairs
@@ -2912,9 +1245,10 @@ body is as follows:
 
 For Protocol Version 13, the following modifications have been made:
 
-   userRequestBody ::= listRequest \| setRequest \| removeRequest \|
-   pwRequest pwRequest ::= username SP encryptPassword
+..  code-block:: ebnf
 
+   userRequestBody ::= listRequest | setRequest | removeRequest | pwRequest
+   pwRequest ::= username SP encryptPassword
    encryptPassword ::= NAME # password encoded as described below
 
 A user may set his/her own password. And administrator may set anyone’s
@@ -2935,19 +1269,19 @@ encrypted with the session key. Zero length passwords are invalid and
 MUST be rejected by the server.
 
 List User Request
-~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^
 
 As described above, the client requests that the server list all of its
 users. The server response is as follows:
 
+..  code-block:: ebnf
+
    listResponse ::= userLine [ listResponse]
-
    userLine ::= username SP pwIndicator SP roles SP props
-
-   pwIndicator ::= '+' \| '-' # + means password present, - means not
+   pwIndicator ::= '+' | '-' # + means password present, - means not
 
 Set User Request
-~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^
 
 The set user request is used to create new users or modify existing
 ones.
@@ -2959,9 +1293,11 @@ DES-Encryption and decryption is done using the one-time session key
 that results from an authenticated connection.
 
 Remove User Request
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
-   listResponse ::= ErrorBody \| STRING
+..  code-block:: ebnf
+
+   listResponse ::= ErrorBody | STRING
 
 The response is simply a string stating that the user was removed.
 
@@ -2971,15 +1307,12 @@ The response is simply a string stating that the user was removed.
    1. .. rubric:: Return Configuration to Client
          :name: return-configuration-to-client
 
-..
+..  code-block:: ebnf
 
    returnCfgRequestBody ::= cfgfiletype
-
-   cfgfiletype ::= 'lrgs' \| 'ddsrecv' \| 'drgs' \| 'netlist-list' \|
-   'netlist:' + filename
-
-   returnCfgResponseBody ::= filedata filedata ::= ErrorBody \|
-   OCTETSTRING
+   cfgfiletype ::= 'lrgs' | 'ddsrecv' | 'drgs' | 'netlist-list' | 'netlist:' + filename
+   returnCfgResponseBody ::= filedata 
+   filedata ::= ErrorBody | OCTETSTRING
 
 The client requests a particular configuration from the server. The
 ‘cfgfiletype’ definition shows the currently supported file-types. The
@@ -2992,10 +1325,12 @@ The network lists returned in this command are the *shared* network
 lists available to all users.
 
 Install Configuration on Server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..  code-block:: ebnf
 
    installCfgRequestBody ::= cfgfiletype + (pad to 64-bytes)
-   installCfgResponseBody ::= ErrorBody \| OCTETSTRING
+   installCfgResponseBody ::= ErrorBody | OCTETSTRING
 
 The responses is an error message or the file contents.
 
@@ -3012,15 +1347,15 @@ An ‘outage’ is a data-loss event on the server. These are triggered by
 various conditions on the server. The client may retrieve currently
 known outages or may assert new outages.
 
-   getOutageRequest ::= [ starttime [ endtime ] ] starttime ::=
-   YYYY/DDD-HH:MM:SS
+..  code-block:: ebnf
 
+   getOutageRequest ::= [ starttime [ endtime ] ] 
+   starttime ::= YYYY/DDD-HH:MM:SS
    endtime ::= YYYY/DDD-HH:MM:SS
-
-   getOutageResponce :: = ErrorBody \| GZIP( OutageXmlData )
+   getOutageResponce :: = ErrorBody | GZIP( OutageXmlData )
 
 Get Outages
-~~~~~~~~~~~
+^^^^^^^^^^^
 
 The server MUST restrict this command to authenticated users who have
 been granted administrative priviledge.
@@ -3028,28 +1363,26 @@ been granted administrative priviledge.
 Outages are returned as a Gzipped block of XML data in the following
 format:
 
+..  code-block:: xml 
+
    <outageList>
+      <outage outageId=”\ *nnnn*\ ” outageType=”\ *typestr”*>
 
-   <outage outageId=”\ *nnnn*\ ” outageType=”\ *typestr”*>
-
-   <beginTime>YYYY/DDD HH:MM:SS</beginTime> [ <endTime>YYYY/DDD
-   HH:MM:SS</beginTime> ] [ <sourceId>\ *nnnn*\ </sourceId> ]
-
-   [ <sourceName>\ *name*\ </sourceName> ] [
-   <dcpAddress>\ *addr*\ </dcpAddress> ] [
-   <beginSeq>\ *nnnn*\ </beginSeq> ]
-
-   [ <endSeq>\ *nnnn*\ </endSeq> ]
-
-   </outage>
-
+         <beginTime>YYYY/DDD HH:MM:SS</beginTime>
+        [ <endTime>YYYY/DDDHH:MM:SS</endTime> ]
+        [ <sourceId>\ *nnnn*\ </sourceId> ]
+        [ <sourceName>\ *name*\ </sourceName> ] 
+        [ <dcpAddress>\ *addr*\ </dcpAddress> ]
+        [ <beginSeq>\ *nnnn*\ </beginSeq> ]
+        [ <endSeq>\ *nnnn*\ </endSeq> ]
+      </outage>
    </outageList>
 
 Different types of outages may have different entities in its data. The
 above shows all of the possible outage data.
 
 AssertOutage
-~~~~~~~~~~~~
+^^^^^^^^^^^^
 
 The server MUST restrict this command to authenticated users who have
 been granted administrative priviledge.
