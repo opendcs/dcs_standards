@@ -916,7 +916,7 @@ IdGetNetlist with an ErrorBody MUST be returned.
 *Network List File Format*
 --------------------------
 
-Network List Files are ASCII Files containing a DCP addresses, one per
+Network List Files are ASCII Files containing DCP addresses, one per
 line. Each line MUST be terminated by a single line-feed character. The
 format of each line is as follows:
 
@@ -929,13 +929,14 @@ format of each line is as follows:
 
 Example
 
-   CE3E13BC:WTSM5 Chippewa River Diversion Dam near Watson, MN
-   CE3E86DE:GLKM5 GULL LAKE ELEVATION near Brainerd, MN CE456DFA:BIFM5
-   BIG FORK RIVER AT BIG FALLS, MN CE45705E:GPOM5 LAKE KABETOGAMA AT
-   GOLD PORTAGE, MN
+::
 
-   CE457E8C:SSIM5 LAKE OF THE WOODS AT SPRING STEEL ISLAND, nr Warroad,
-   MN
+   CE3E13BC:WTSM5 Chippewa River Diversion Dam near Watson, MN
+   CE3E86DE:GLKM5 GULL LAKE ELEVATION near Brainerd, MN
+   CE456DFA:BIFM5 BIG FORK RIVER AT BIG FALLS, MN
+   CE45705E:GPOM5 LAKE KABETOGAMA AT GOLD PORTAGE, MN
+   CE457E8C:SSIM5 LAKE OF THE WOODS AT SPRING STEEL ISLAND, nr Warroad, MN
+
 
 Retrieving Data
 ===============
