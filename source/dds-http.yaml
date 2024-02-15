@@ -1,0 +1,38 @@
+openapi: '3.0.2'
+info:
+  title: DDS over HTTP
+  version: '1.0'
+servers:
+  - url: http://localhost
+
+components:
+  responses:
+    '500':
+      description: This will be returned on server error. It is up to the client to decide how to try connecting again.
+    '503':
+      description: Inform clients that the system is shutting down or other-wise not ready yet.
+      headers:
+        retry-after:
+          description: When to try connecting again.
+          required: false
+          type: string
+  schemas:
+    criteria:
+      type: object
+      properties:
+        medium-id-mask:
+          type: string
+          description: Regular expression to identify what transport medium messages to include
+paths:
+  /feed:
+    get:
+      responses:
+        '200':
+          description: Reponse includes any data available.
+        '204':
+          description: No new data available, request again.
+        '500':
+          $ref: '#/components/responses/500'
+        '503':
+          $ref: '#/components/responses/503'
+      description: Retrieve message for the given, or all if none provided, criteria. This uses HTTP long-polling. After 9 seconds, if no new data is available from the server a 204 Response is sent to the client to indicate the client should connect again to wait for more data.

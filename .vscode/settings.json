@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "openapi:v3": "file:///home/mike/project/dcs_standards/source/dds-http.yaml"
+    }
+}
