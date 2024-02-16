@@ -13,9 +13,10 @@ components:
       description: Inform clients that the system is shutting down or other-wise not ready yet.
       headers:
         retry-after:
-          description: When to try connecting again.
+          description: When to try connecting again. Sending this header to clients is optional.
           required: false
-          type: string
+          schema:
+            type: string
   schemas:
     criteria:
       type: object
@@ -24,8 +25,17 @@ components:
           type: string
           description: Regular expression to identify what transport medium messages to include
 paths:
-  /feed:
+  /data:
     get:
+      summary: Retrieve DCS data
+      parameters:
+        - name: criteria
+          in: query
+          description: Name of previously provided criteria to use
+          required: false
+          schema:
+            type: string
+            description: Alphanumeric string given when the critirea was saved.
       responses:
         '200':
           description: Reponse includes any data available.
@@ -36,3 +46,21 @@ paths:
         '503':
           $ref: '#/components/responses/503'
       description: Retrieve message for the given, or all if none provided, criteria. This uses HTTP long-polling. After 9 seconds, if no new data is available from the server a 204 Response is sent to the client to indicate the client should connect again to wait for more data.
+  /criteria:
+    post:
+      summary: Provide creteria for limiting data returned.
+      description: Allows the client to inform the system exactly which data should be returned.
+      responses:
+        '201':
+          description: "Sucessfully stored."
+        '400':
+          description: "Error saving criteria."
+        '500':
+          $ref: '#/components/responses/500'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/criteria'
+
