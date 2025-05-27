@@ -1305,11 +1305,11 @@ Remove User Request
 
 The response is simply a string stating that the user was removed.
 
-2. .. rubric:: *Configuration Commands*
+1. .. rubric:: *Configuration Commands*
       :name: configuration-commands
 
-   1. .. rubric:: Return Configuration to Client
-         :name: return-configuration-to-client
+1. .. rubric:: Return Configuration to Client
+      :name: return-configuration-to-client
 
 ..  code-block:: ebnf
 
@@ -1401,7 +1401,7 @@ is supported. Start TLS *MUST* be the first command sent.
 ..  code-block:: ebnf
 
    StartTlsReqBody ::= *empty*
-   StartTlsResponse ::= 'proceed'   
+   StartTlsResponse ::= 'proceed' | 'not supported'
 
 Once the client recieves the proceed command it and transition it's socket 
 to TLS and begin the handshake.
@@ -1410,6 +1410,9 @@ Once the connection has transitioned to TLS operations can proceed as normal.
 
 If the server does not support StartTLS clients *SHOULD* consider this an error
 and terminate the connection.
+
+The 'not supported' response is for servers that are capable of Start TLS but choose 
+not to enable it.
 
 Reference Implementation
 ========================

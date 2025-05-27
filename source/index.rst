@@ -10,7 +10,7 @@ Welcome to DCS Standards Documents's documentation!
    :maxdepth: 1
    :caption: Standards:
 
-   dds-14.rst
+   dds.rst
    damsnt-8.2.rst
    hrit-r1.rst
 
