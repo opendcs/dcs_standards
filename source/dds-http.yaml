@@ -19,16 +19,34 @@ components:
           schema:
             type: string
   schemas:
-    criteria:
+    searchCriteria:
+      description: Search criteria to use for retrieving messages
       type: object
       properties:
-        medium-id-mask:
+        addresses:
+          type: array
+          items: 
+            type: string
+        address-mask: 
           type: string
-          description: Regular expression to identify what transport medium messages to include
+          description: Regular expression to identify messages by address field if available
+        name-mask:
+          type: string
+          description: Regular expression to identiify message by name field by available
+        names:
+          types: array
+          items:
+            type: string
         since:
           type: string
         until:
           type: string          
+        data-sources:
+          type: array
+          items:
+            type: string
+          description: Which data sources to retrieve data for. (defaults to all data sources)
+        additionalProperties: true
     dcpMessage:
       type: object
       properties:
@@ -123,6 +141,7 @@ paths:
       responses:
         '201':
           description: "Successfully stored."
+          # NOTE: return an identifier
         '400':
           description: "Provided criteria is invalid."
         '500':
@@ -132,7 +151,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/criteria'
+              $ref: '#/components/schemas/searchCriteria'
   /dds/sources:
     get:
       summary: Provide information about data sources available from this instance
