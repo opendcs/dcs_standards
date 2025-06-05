@@ -61,10 +61,23 @@ components:
           type: string
         type:
           $ref: "#/components/schemas/dataSourceType"
+        groupingKeys:
+          $ref: "#/components/schemas/groupingKey"
       required:
         - name
-        - type
+        - type      
       additionalProperties: true
+    groupingKey:
+      type: object
+      description: Data Source message element that can be used to organize the the display page.
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+        - description
     knownSourceTypes:
       type: string
       enum: ["GOES", "Iridium", "Network Dcp", "HRIT", "DRGS", "LRGS", "NOAPORT", "WEB"]
