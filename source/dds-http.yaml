@@ -5,7 +5,7 @@ info:
   description: Defines bare minimum requirements for exchanging 
 servers:
   - url: /dds
-    description: USACE LRGS DDS Server
+    description: Data Dissemination Service over HTTP  
 
 components:
   responses:
