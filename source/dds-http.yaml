@@ -4,7 +4,7 @@ info:
   version: '1.0.0'
   description: Defines bare minimum requirements for exchanging 
 servers:
-  - url: https://lrgs.usace.army.mil/api
+  - url: /api/dds
     description: USACE LRGS DDS Server
 
 components:
@@ -207,6 +207,7 @@ components:
     statusGroupSummary:
       type: object
       description: Summary of DCP statuses for a group of locations
+      additionalProperties: true
       properties:
         timestamp:
           type: string
@@ -225,13 +226,6 @@ components:
               type: integer
             complete:
               type: integer
-            reservoir:
-              type: integer
-        lowBatteryAddresses:
-          type: array
-          items:
-            type: string
-          description: List of DCP addresses with low battery status
         locations:
           type: object
           additionalProperties:
@@ -251,6 +245,7 @@ components:
                 type: integer
                 description: Number of parity message issues
               lowBattery:
+                description: List of DCP addresses with low battery status
                 type: boolean
     
 paths:
