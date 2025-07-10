@@ -4,7 +4,7 @@ info:
   version: '1.0.0'
   description: Defines bare minimum requirements for exchanging 
 servers:
-  - url: /api/dds
+  - url: /dds
     description: USACE LRGS DDS Server
 
 components:
