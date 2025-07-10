@@ -212,6 +212,7 @@ components:
         timestamp:
           type: string
           format: date-time
+          description: Timestamp the summary was generated (in UTC).
         durationHours:
           type: integer
           description: Duration in hours that the status covers (e.g. 24)
