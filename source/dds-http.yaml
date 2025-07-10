@@ -250,7 +250,7 @@ components:
                 type: boolean
     
 paths:
-  /dds/data/next:
+  /data/next:
     get:
       summary: Retrieve DCS data
       parameters:
@@ -275,7 +275,7 @@ paths:
         '503':
           $ref: '#/components/responses/503'
       description: Retrieve message for the given, or all if none provided, criteria. This uses HTTP long-polling. After 9 seconds, if no new data is available from the server a 204 Response is sent to the client to indicate the client should connect again to wait for more data.
-  /dds/data/search:
+  /data/search:
     post:
       summary: Provide criteria for limiting data returned.
       description: Allows the client to inform the system exactly which data should be returned.
@@ -293,7 +293,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/searchCriteria'
-  /dds/sources:
+  /sources:
     get:
       summary: Provide information about data sources available from this instance
       description: Allow client to know what data sources are available
@@ -310,7 +310,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - sources
-  /dds/data/query:
+  /data/query:
     get:
       summary: Query DCP messages on the fly
       description: |
@@ -387,7 +387,7 @@ paths:
           $ref: '#/components/responses/500'
         '503':
           $ref: '#/components/responses/503'
-  /dds/data/summary:
+  /data/summary:
     get:
       summary: Retrieve status summary for a group
       description: |
