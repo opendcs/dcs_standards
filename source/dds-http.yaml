@@ -229,25 +229,24 @@ components:
               type: integer
         locations:
           type: object
-          additionalProperties:
-            type: object
-            properties:
-              shefId:
-                type: string
-              nessId:
-                type: string
-              status:
-                type: string
-                enum: [missing, partial, parity, complete]
-              messageTotal:
-                type: integer
-                description: Number of messages received
-              parityCount:
-                type: integer
-                description: Number of parity message issues
-              lowBattery:
-                description: List of DCP addresses with low battery status
-                type: boolean
+          additionalProperties: true
+          properties:
+            shefId:
+              type: string
+            nessId:
+              type: string
+            status:
+              type: string
+              enum: [missing, partial, parity, complete]
+            messageTotal:
+              type: integer
+              description: Number of messages received
+            parityCount:
+              type: integer
+              description: Number of parity message issues
+            lowBattery:
+              description: List of DCP addresses with low battery status
+              type: boolean
     
 paths:
   /data/next:
