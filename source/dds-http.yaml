@@ -388,12 +388,12 @@ paths:
           $ref: '#/components/responses/503'
   /data/summary:
     get:
-      summary: Retrieve status summary for a group
+      summary: Retrieve status summary for a group DCPs
       description: |
         Returns a summarized status report for a group of DCP locations, including message counts,
         parity errors, and battery health.
       parameters:
-        - name: group
+        - name: data-group
           in: query
           required: true
           description: The name of the group to summarize (e.g., "SWT")
