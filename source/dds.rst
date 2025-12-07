@@ -605,7 +605,10 @@ Table 2-2 contains the valid type-codes for DDS messages
 |                  |                    | commands: Add, Modify,     |
 |                  |                    | Delete                     |
 +------------------+--------------------+----------------------------+
-
+|   **t**          |    IdStartTls      | Transition this connection |
+|                  |                    | to use TLS. *MUST* be the  |
+|                  |                    | first command sent.        |
++------------------+--------------------+----------------------------+
 ..
 
    **Table 2-2: Type-Codes used in DDS Messages.**
@@ -1302,11 +1305,11 @@ Remove User Request
 
 The response is simply a string stating that the user was removed.
 
-2. .. rubric:: *Configuration Commands*
+1. .. rubric:: *Configuration Commands*
       :name: configuration-commands
 
-   1. .. rubric:: Return Configuration to Client
-         :name: return-configuration-to-client
+1. .. rubric:: Return Configuration to Client
+      :name: return-configuration-to-client
 
 ..  code-block:: ebnf
 
@@ -1389,6 +1392,27 @@ The server MUST restrict this command to authenticated users who have
 been granted administrative priviledge.
 
 The body of this message is a GZipped block of XML as shown above.
+
+Start TLS
+^^^^^^^^^
+If a DDS server supports transitioning a connection to TLS the following 
+is supported. Start TLS *MUST* be the first command sent.
+
+..  code-block:: ebnf
+
+   StartTlsReqBody ::= *empty*
+   StartTlsResponse ::= 'proceed' | 'not supported'
+
+Once the client recieves the proceed command it and transition it's socket 
+to TLS and begin the handshake.
+
+Once the connection has transitioned to TLS operations can proceed as normal.
+
+If the server does not support StartTLS clients *SHOULD* consider this an error
+and terminate the connection.
+
+The 'not supported' response is for servers that are capable of Start TLS but choose 
+not to enable it.
 
 Reference Implementation
 ========================
