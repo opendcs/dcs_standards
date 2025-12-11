@@ -2,7 +2,10 @@ openapi: '3.0.2'
 info:
   title: DDS over HTTP
   version: '1.0.0'
-  description: Defines bare minimum requirements for exchanging 
+  description: |
+  **DCP Data Service (DDS) over HTTP**
+    
+   This API defines the minimum URL requirements for exchanging Data Collection Platform (DCP) messages over HTTP. It defines access to telemetry data collected from multiple sources including GOES and Iridium satellites, and other data collection systems.
 servers:
   - url: /dds
     description: Data Dissemination Service over HTTP  
