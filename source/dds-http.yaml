@@ -1,7 +1,9 @@
 openapi: '3.0.2'
 info:
   title: DDS over HTTP
-  version: '1.0.0'
+  # will update to 1.0.0 once We have better stablized on the design 
+  # after some usages.
+  version: '0.0.1'
   description: |
   **DCP Data Service (DDS) over HTTP**
     
