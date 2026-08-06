@@ -1,16 +1,16 @@
 openapi: '3.0.2'
 info:
   title: DDS over HTTP
-  # will update to 1.0.0 once We have better stablized on the design 
+  # will update to 1.0.0 once We have better stablized on the design
   # after some usages.
   version: '0.0.1'
   description: |
-  **DCP Data Service (DDS) over HTTP**
-    
+   **DCP Data Service (DDS) over HTTP**
+
    This API defines the minimum URL requirements for exchanging Data Collection Platform (DCP) messages over HTTP. It defines access to telemetry data collected from multiple sources including GOES and Iridium satellites, and other data collection systems.
 servers:
   - url: /dds
-    description: Data Dissemination Service over HTTP  
+    description: Data Dissemination Service over HTTP
 
 components:
   responses:
@@ -38,7 +38,7 @@ components:
           $ref: "#/components/schemas/groupingKey"
       required:
         - name
-        - type      
+        - type
       additionalProperties: true
     knownSourceTypes:
       type: string
@@ -69,9 +69,9 @@ components:
       properties:
         addresses:
           type: array
-          items: 
+          items:
             type: string
-        address-mask: 
+        address-mask:
           type: string
           description: Regular expression to identify messages by address field if available
         name-mask:
@@ -84,7 +84,7 @@ components:
         since:
           type: string
         until:
-          type: string          
+          type: string
         data-sources:
           type: array
           items:
@@ -92,7 +92,7 @@ components:
           description: Which data sources to retrieve data for. (defaults to all data sources)
     goesMessage:
       type: object
-      description: Represents a single message received from a DCP (Data Collection Platform), 
+      description: Represents a single message received from a DCP (Data Collection Platform),
         including metadata about signal quality, source, and encoded data.
       properties:
         receiveTime:
@@ -232,27 +232,47 @@ components:
               type: integer
             complete:
               type: integer
-        locations:
+        dcpSummaries:
           type: object
-          additionalProperties: true
-          properties:
-            shefId:
-              type: string
-            nessId:
-              type: string
-            status:
-              type: string
-              enum: [missing, partial, parity, complete]
-            messageTotal:
-              type: integer
-              description: Number of messages received
-            parityCount:
-              type: integer
-              description: Number of parity message issues
-            lowBattery:
-              description: List of DCP addresses with low battery status
-              type: boolean
-    
+          description: Map of DCPs (by Address) and their summary information
+          additionalProperties:
+            $ref: '#/components/schemas/dcpSummary'
+    dcpSummary:
+      type: object
+      additionalProperties: true
+      properties:
+        identifiers:
+          type: array
+          description: |
+            Data Loggers (Data Collection Platforms) may have more than one address available.
+            If so, they will be listed here.
+          items:
+            $ref: '#/components/schemas/dcpIdentifier'
+        status:
+          type: string
+          enum: [missing, partial, parity, complete]
+        messageTotal:
+          type: integer
+          description: Number of messages received
+        parityCount:
+          type: integer
+          description: Number of parity message issues
+        lowBattery:
+          description: List of DCP addresses with low battery status
+          type: boolean
+    dcpIdentifier:
+      type: object
+      properties:
+        type:
+          description: |
+            Specific type of identifier, such as NESDIS ID or SHEF ID.
+            Some systems may refer to this as an alias.
+          type: string
+        id:
+          type: string
+      required:
+        - type
+        - id
 paths:
   /data/next:
     get:
