@@ -258,16 +258,27 @@ components:
           type: integer
           description: Number of parity message issues
         lowBattery:
-          description: List of DCP addresses with low battery status
+          description: If this DCP is in  low battery status
           type: boolean
+      required:
+        - status
+        - messageTotal
+        - parityCount
+        - lowBattery
     dcpIdentifier:
       type: object
       properties:
         type:
           description: |
             Specific type of identifier, such as NESDIS ID or SHEF ID.
-            Some systems may refer to this as an alias.
+            Some systems may refer to this as an alias. The field is freeform implementations
+            *SHOULD* use the simplest version of the name possible. See the examples below.
           type: string
+          example:
+            - SHEF
+            - NESDIS
+            - Local
+            - CWMS
         id:
           type: string
       required:
