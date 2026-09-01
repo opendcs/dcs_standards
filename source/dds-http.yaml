@@ -24,6 +24,12 @@ components:
           required: false
           schema:
             type: string
+  headers:
+    Link:
+      description: Link to the next page of messages, included when more data are available in the current HTTP session.
+      schema:
+        type: string
+      example: '</dds/data/next>; rel="next"'
   schemas:
     dataGroup:
       description: A configured network list available for status reporting.
@@ -103,126 +109,124 @@ components:
           items:
             type: string
           description: Which data sources to retrieve data for. (defaults to all data sources)
-    goesMessage:
-      type: object
-      description: Represents a single message received from a DCP (Data Collection Platform),
-        including metadata about signal quality, source, and encoded data.
-      properties:
-        messageType:
-          type: string
-          enum: [GOES]
-        dcpAddress:
-          type: string
-          description: Primary NESDIS DCP address
-        transmitTime:
-          type: string
-          format: date-time
-          description: Timestamp encoded by the DCP for the transmission (in UTC).
-        receiveTime:
-          type: string
-          format: date-time
-          description: Timestamp when the message was received (in UTC).
-        dataSource:
-          $ref: "#/components/schemas/dataSource"
-        cType:
-          type: string
-          description: Carrier type code (e.g., 'g-s-t').
-        arm:
-          type: string
-          description: Antenna receive mode indicator - Type Message - G=Good,?=Parity Error (Any other is from DAPS)
-        eirp:
-          type: string
-          description: Signal strength, in dB (32-57) - Effective Isotropic Radiated Power (EIRP) value. Good 50 to 38dB.
-        frequency:
-          type: string
-          description: Frequency offset used by the transmitter. +/-X in 50Hz increments (+/-A indicates 500Hz).
-        modulation:
-          type: string
-          description: Modulation type used. High, Normal, Low (H=? 70°, N=60°+/-5°, L=? 50°)
-        quality:
-          type: string
-          description: Data signal quality indicator. Normal, Fair, Poor (Error N<10^-6, Fair>10^-6 to 10^-4, Poor>10^-4)
-        channel:
-          type: string
-          description: Channel number used for transmission (e.g., '162W'). Goes East or West Satellite.
-        downlink:
-          type: string
-          description: Down link status - Hexadecimal coded.
-        charlen:
-          type: integer
-          description: Number of characters in message (includes EOT + FW but not ID).
-        data:
-          type: string
-          description: Raw DCP data payload in plain text format.
-      required:
-        - messageType
-        - dcpAddress
-        - transmitTime
-        - receiveTime
-        - dataSource
-
-    iridiumMessage:
-      type: object
-      description: Message received via Iridium satellite including transmission metadata and DCP payload.
-      properties:
-        messageType:
-          type: string
-          enum: [Iridium]
-        receiveTime:
-          type: string
-          format: date-time
-          description: Time the message was received by the system (in UTC).
-        dataSource:
-          $ref: "#/components/schemas/dataSource"
-        imei:
-          type: string
-          description: IMEI identifier extracted from the `ID=` field.
-        timestampOffset:
-          type: string
-          description: Encoded timestamp from `TIME=` field.
-        status:
-          type: string
-          description: Status flag from `STAT=` field.
-        mobileOriginated:
-          type: string
-          description: Message count for mobile-originated packets (MO=).
-        mobileTerminated:
-          type: string
-          description: Message count for mobile-terminated packets (MT=).
-        cdrReference:
-          type: string
-          description: Reference code from `CDR=`.
-        latitude:
-          type: number
-          format: float
-          description: Latitude from `LAT=`.
-        longitude:
-          type: number
-          format: float
-          description: Longitude from `LON=`.
-        radius:
-          type: integer
-          description: Accuracy or coverage radius from `RAD=`.
-        payloadFormat:
-          type: string
-          description: Raw header line preceding DCP payload (e.g. `IE:0200D0`)
-        data:
-          type: string
-          description: DCP data content that follows the header.
-      required:
-        - messageType
-        - receiveTime
-        - dataSource
-
     dcpMessage:
-      oneOf:
-        - $ref: '#/components/schemas/goesMessage'
-        - $ref: '#/components/schemas/iridiumMessage'
+      type: object
+      description: Common fields for a message received from a data source. Implementations may add source-specific fields and message types.
+      additionalProperties: true
       discriminator:
         propertyName: messageType
         mapping:
           GOES: '#/components/schemas/goesMessage'
           Iridium: '#/components/schemas/iridiumMessage'
+      properties:
+        messageType:
+          type: string
+          description: Message type identified by the data source. Values beyond the types documented by this specification are allowed.
+        receiveTime:
+          type: string
+          format: date-time
+          description: Timestamp when the message was received by this system (in UTC).
+        dataSource:
+          $ref: "#/components/schemas/dataSource"
+        data:
+          type: string
+          description: Message data content.
+      required:
+        - messageType
+        - receiveTime
+        - dataSource
+
+    goesMessage:
+      description: GOES-specific message fields.
+      allOf:
+        - $ref: '#/components/schemas/dcpMessage'
+        - type: object
+          properties:
+            messageType:
+              type: string
+              enum: [GOES]
+            dcpAddress:
+              type: string
+              description: Primary NESDIS DCP address
+            transmitTime:
+              type: string
+              format: date-time
+              description: Timestamp encoded by the DCP for the transmission (in UTC).
+            cType:
+              type: string
+              description: Carrier type code (e.g., 'g-s-t').
+            arm:
+              type: string
+              description: Antenna receive mode indicator - Type Message - G=Good,?=Parity Error (Any other is from DAPS)
+            eirp:
+              type: string
+              description: Signal strength, in dB (32-57) - Effective Isotropic Radiated Power (EIRP) value. Good 50 to 38dB.
+            frequency:
+              type: string
+              description: Frequency offset used by the transmitter. +/-X in 50Hz increments (+/-A indicates 500Hz).
+            modulation:
+              type: string
+              description: Modulation type used. High, Normal, Low (H=? 70°, N=60°+/-5°, L=? 50°)
+            quality:
+              type: string
+              description: Data signal quality indicator. Normal, Fair, Poor (Error N<10^-6, Fair>10^-6 to 10^-4, Poor>10^-4)
+            channel:
+              type: string
+              description: Channel number used for transmission (e.g., '162W'). Goes East or West Satellite.
+            downlink:
+              type: string
+              description: Down link status - Hexadecimal coded.
+            charlen:
+              type: integer
+              description: Number of characters in message (includes EOT + FW but not ID).
+          required:
+            - messageType
+            - dcpAddress
+            - transmitTime
+
+    iridiumMessage:
+      description: Iridium-specific message fields.
+      allOf:
+        - $ref: '#/components/schemas/dcpMessage'
+        - type: object
+          properties:
+            messageType:
+              type: string
+              enum: [Iridium]
+            imei:
+              type: string
+              description: IMEI identifier extracted from the `ID=` field.
+            timestampOffset:
+              type: string
+              description: Encoded timestamp from `TIME=` field.
+            status:
+              type: string
+              description: Status flag from `STAT=` field.
+            mobileOriginated:
+              type: string
+              description: Message count for mobile-originated packets (MO=).
+            mobileTerminated:
+              type: string
+              description: Message count for mobile-terminated packets (MT=).
+            cdrReference:
+              type: string
+              description: Reference code from `CDR=`.
+            latitude:
+              type: number
+              format: float
+              description: Latitude from `LAT=`.
+            longitude:
+              type: number
+              format: float
+              description: Longitude from `LON=`.
+            radius:
+              type: integer
+              description: Accuracy or coverage radius from `RAD=`.
+            payloadFormat:
+              type: string
+              description: Raw header line preceding DCP payload (e.g. `IE:0200D0`)
+          required:
+            - messageType
 
     dcpMessages:
       type: object
@@ -241,9 +245,6 @@ components:
           description: Expected transmission windows for a single-identifier query.
           items:
             $ref: '#/components/schemas/dcpTransmission'
-        moreAvailable:
-          type: boolean
-          description: True when the server stopped at the requested limit and more messages may be retrieved with `/data/next` using the same session.
         groupingKey:
           $ref: '#/components/schemas/groupingKey'
         knownSourceTypes:
@@ -390,6 +391,9 @@ paths:
       responses:
         '200':
           description: Response includes any data available.
+          headers:
+            Link:
+              $ref: '#/components/headers/Link'
           content:
             application/json:
               schema:
@@ -524,6 +528,9 @@ paths:
       responses:
         '200':
           description: Matched messages
+          headers:
+            Link:
+              $ref: '#/components/headers/Link'
           content:
             application/json:
               schema:
