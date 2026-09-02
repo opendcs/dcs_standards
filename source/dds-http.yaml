@@ -152,13 +152,13 @@ components:
               type: string
               format: date-time
               description: Timestamp encoded by the DCP for the transmission (in UTC).
-            cType:
+            carrierType:
               type: string
               description: Carrier type code (e.g., 'g-s-t').
-            arm:
+            antennaReceiveMode:
               type: string
               description: Antenna receive mode indicator - Type Message - G=Good,?=Parity Error (Any other is from DAPS)
-            eirp:
+            effectiveIsotropicRadiatedPower:
               type: string
               description: Signal strength, in dB (32-57) - Effective Isotropic Radiated Power (EIRP) value. Good 50 to 38dB.
             frequency:
@@ -176,7 +176,7 @@ components:
             downlink:
               type: string
               description: Down link status - Hexadecimal coded.
-            charlen:
+            messageLength:
               type: integer
               description: Number of characters in message (includes EOT + FW but not ID).
           required:
